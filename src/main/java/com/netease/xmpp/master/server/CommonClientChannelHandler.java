@@ -49,7 +49,12 @@ public class CommonClientChannelHandler extends SimpleChannelHandler {
 
             dispatcher.dispatchEvent(channel, message, EventType.valueOf(handlerPrefix
                     + "_HASH_UPDATE_COMPLETE"));
-        } else if (flag == MessageFlag.FLAG_HEATBEAT) {
+        } else if (flag == MessageFlag.FLAG_SERVER_INFO) {
+            // Only XMPP server send this type of message to the master
+            logger.debug(handlerPrefix + " - INFO_RECV: " + channel.getRemoteAddress());
+
+            dispatcher.dispatchEvent(channel, message, EventType.SERVER_INFO_RECV);
+        }else if (flag == MessageFlag.FLAG_HEATBEAT) {
             logger.debug(handlerPrefix + " - HEARTBEAT: " + channel.getRemoteAddress());
 
             dispatcher.dispatchEvent(channel, message, EventType.valueOf(handlerPrefix

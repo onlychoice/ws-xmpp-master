@@ -116,6 +116,7 @@ public class SyncClient {
 
         eventDispatcher.registerEvent(serverConnectionEventHandler, //
                 EventType.CLIENT_SERVER_CONNECTED, //
+                EventType.CLIENT_SERVER_INFO_ACCEPTED, //
                 EventType.CLIENT_SERVER_DISCONNECTED, //
                 EventType.CLIENT_SERVER_HEARTBEAT, //
                 EventType.CLIENT_SERVER_HEARTBEAT_TIMOUT);
@@ -127,7 +128,7 @@ public class SyncClient {
     }
 
     public static void main(String[] args) throws Exception {
-        int clientType = CLIENT_TYPE_PROXY;
+        int clientType = CLIENT_TYPE_XMPP_SERVER;
         if (args.length > 0) {
             clientType = Integer.valueOf(args[0]);
         }

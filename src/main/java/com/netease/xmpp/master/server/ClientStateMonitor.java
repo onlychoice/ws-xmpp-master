@@ -1,8 +1,11 @@
 package com.netease.xmpp.master.server;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.jboss.netty.channel.Channel;
+
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 
 /**
  * Monitor for master server.
@@ -21,7 +24,7 @@ public class ClientStateMonitor implements Runnable {
     @Override
     public void run() {
         while (true) {
-            List<Channel> serverList = clientCache.getXmppServerList();
+            Collection<ServerInfo> serverList = clientCache.getXmppServerList();
             List<Channel> proxyList = clientCache.getProxyList();
             List<Channel> robotList = clientCache.getRobotList();
 

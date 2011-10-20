@@ -128,6 +128,7 @@ public class SyncServer {
         // Xmpp server event handler
         eventDispatcher.registerEvent(xmppServerEventHandler, //
                 EventType.SERVER_CONNECT, //
+                EventType.SERVER_INFO_RECV, //
                 EventType.SERVER_DISCONNECT, //
                 EventType.SERVER_HEARTBEAT, //
                 EventType.SERVER_HEARTBEAT_TIMEOUT);

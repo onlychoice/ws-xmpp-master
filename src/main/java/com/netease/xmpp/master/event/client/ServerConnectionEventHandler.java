@@ -10,9 +10,11 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 import org.jboss.netty.channel.ChannelPipelineException;
-
 import com.netease.xmpp.master.common.ConfigConst;
 import com.netease.xmpp.master.common.HeartBeatWorker;
+import com.netease.xmpp.master.common.Message;
+import com.netease.xmpp.master.common.MessageFlag;
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 import com.netease.xmpp.master.event.EventContext;
 import com.netease.xmpp.master.event.EventDispatcher;
 import com.netease.xmpp.master.event.EventHandler;
@@ -75,7 +77,10 @@ public class ServerConnectionEventHandler implements EventHandler {
         switch (event) {
         case CLIENT_SERVER_CONNECTED:
             serverChannel = channel;
-            startHeartBeat(channel);
+            sendServerInfo();
+            break;
+        case CLIENT_SERVER_INFO_ACCEPTED:
+            startHeartBeat(serverChannel);
             synchronizedSet(timeoutTime, timeoutValue);
             break;
 
@@ -96,6 +101,22 @@ public class ServerConnectionEventHandler implements EventHandler {
         }
     }
 
+    private void sendServerInfo() {
+        ServerInfo.Builder serverInfoBuilder = ServerInfo.newBuilder();
+        serverInfoBuilder.setIp("");
+        serverInfoBuilder.setClientPort(80);
+        serverInfoBuilder.setClientSSLPort(80);
+        serverInfoBuilder.setCMPort(80);
+        serverInfoBuilder.setCacheHost("");
+        serverInfoBuilder.setCachePort(80);
+        serverInfoBuilder.setHash(0);
+
+        byte[] data = serverInfoBuilder.build().toByteArray();
+
+        Message serverInfoMessage = new Message(MessageFlag.FLAG_SERVER_INFO, 0, data.length, data);
+        serverChannel.write(serverInfoMessage);
+    }
+    
     private void synchronizedSet(AtomicLong timeoutTime, long value) {
         synchronized (timeoutTime) {
             timeoutTime.set(value);

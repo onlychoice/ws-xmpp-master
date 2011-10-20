@@ -1,12 +1,17 @@
 package com.netease.xmpp.master.server;
 
 import java.util.BitSet;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jboss.netty.channel.Channel;
+
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 
 /**
  * Cache for client.
@@ -21,7 +26,7 @@ public class ClientCache {
     /**
      * XMPP Server list.
      */
-    private List<Channel> xmppServerList = Collections.synchronizedList(new LinkedList<Channel>());
+    private Map<Channel, ServerInfo> xmppServerList = new ConcurrentHashMap<Channel, ServerInfo>();
     /**
      * Proxy list.
      */
@@ -91,8 +96,8 @@ public class ClientCache {
         return hashVersion.intValue();
     }
 
-    public synchronized void addXmppServer(Channel ch) {
-        xmppServerList.add(ch);
+    public synchronized void addXmppServer(Channel ch, ServerInfo serverInfo) {
+        xmppServerList.put(ch, serverInfo);
         serverVersion.incrementAndGet();
     }
 
@@ -101,8 +106,8 @@ public class ClientCache {
         serverVersion.incrementAndGet();
     }
 
-    public List<Channel> getXmppServerList() {
-        return xmppServerList;
+    public Collection<ServerInfo> getXmppServerList() {
+        return Collections.unmodifiableCollection(xmppServerList.values());
     }
 
     public void addProxy(Channel ch) {
@@ -173,15 +178,15 @@ public class ClientCache {
 
     public void removeProxySync(Channel channel) {
         int length = proxyList.size();
-        if(length == 0) {
+        if (length == 0) {
             return;
         }
-        
+
         int index = proxyList.indexOf(channel);
-        if(index < 0) {
+        if (index < 0) {
             return;
         }
-        
+
         if (index >= length - 1) {
             synchronized (proxyServerSyncStatus) {
                 proxyServerSyncStatus.set(index, false);
@@ -268,15 +273,15 @@ public class ClientCache {
 
     public void removeRobotSync(Channel channel) {
         int length = robotList.size();
-        if(length == 0) {
+        if (length == 0) {
             return;
         }
-        
+
         int index = robotList.indexOf(channel);
-        if(index < 0) {
+        if (index < 0) {
             return;
         }
-        
+
         if (index >= length - 1) {
             synchronized (robotServerSyncStatus) {
                 robotServerSyncStatus.set(index, false);

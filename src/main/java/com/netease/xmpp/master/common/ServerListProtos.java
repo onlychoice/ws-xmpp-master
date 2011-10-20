@@ -3,22 +3,22 @@
 
 package com.netease.xmpp.master.common;
 
-public final class ServerHashProtos {
-  private ServerHashProtos() {}
+public final class ServerListProtos {
+  private ServerListProtos() {}
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
   public interface ServerOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
-    // repeated .test.Server.ServerHash server = 1;
-    java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> 
+    // repeated .test.Server.ServerInfo server = 1;
+    java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> 
         getServerList();
-    com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash getServer(int index);
+    com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo getServer(int index);
     int getServerCount();
-    java.util.List<? extends com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder> 
+    java.util.List<? extends com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder> 
         getServerOrBuilderList();
-    com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder getServerOrBuilder(
+    com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder getServerOrBuilder(
         int index);
   }
   public static final class Server extends
@@ -41,55 +41,71 @@ public final class ServerHashProtos {
     
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_descriptor;
+      return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_descriptor;
     }
     
     protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_fieldAccessorTable;
+      return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_fieldAccessorTable;
     }
     
-    public interface ServerHashOrBuilder
+    public interface ServerInfoOrBuilder
         extends com.google.protobuf.MessageOrBuilder {
       
       // required string ip = 1;
       boolean hasIp();
       String getIp();
       
-      // required int32 port = 2;
-      boolean hasPort();
-      int getPort();
+      // required int32 clientPort = 2;
+      boolean hasClientPort();
+      int getClientPort();
       
-      // required int64 hash = 3;
+      // required int32 clientSSLPort = 3;
+      boolean hasClientSSLPort();
+      int getClientSSLPort();
+      
+      // required int32 CMPort = 4;
+      boolean hasCMPort();
+      int getCMPort();
+      
+      // required string cacheHost = 5;
+      boolean hasCacheHost();
+      String getCacheHost();
+      
+      // required int32 cachePort = 6;
+      boolean hasCachePort();
+      int getCachePort();
+      
+      // required int64 hash = 7;
       boolean hasHash();
       long getHash();
     }
-    public static final class ServerHash extends
+    public static final class ServerInfo extends
         com.google.protobuf.GeneratedMessage
-        implements ServerHashOrBuilder {
-      // Use ServerHash.newBuilder() to construct.
-      private ServerHash(Builder builder) {
+        implements ServerInfoOrBuilder {
+      // Use ServerInfo.newBuilder() to construct.
+      private ServerInfo(Builder builder) {
         super(builder);
       }
-      private ServerHash(boolean noInit) {}
+      private ServerInfo(boolean noInit) {}
       
-      private static final ServerHash defaultInstance;
-      public static ServerHash getDefaultInstance() {
+      private static final ServerInfo defaultInstance;
+      public static ServerInfo getDefaultInstance() {
         return defaultInstance;
       }
       
-      public ServerHash getDefaultInstanceForType() {
+      public ServerInfo getDefaultInstanceForType() {
         return defaultInstance;
       }
       
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_ServerHash_descriptor;
+        return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_ServerInfo_descriptor;
       }
       
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_ServerHash_fieldAccessorTable;
+        return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_ServerInfo_fieldAccessorTable;
       }
       
       private int bitField0_;
@@ -125,21 +141,83 @@ public final class ServerHashProtos {
         }
       }
       
-      // required int32 port = 2;
-      public static final int PORT_FIELD_NUMBER = 2;
-      private int port_;
-      public boolean hasPort() {
+      // required int32 clientPort = 2;
+      public static final int CLIENTPORT_FIELD_NUMBER = 2;
+      private int clientPort_;
+      public boolean hasClientPort() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-      public int getPort() {
-        return port_;
+      public int getClientPort() {
+        return clientPort_;
       }
       
-      // required int64 hash = 3;
-      public static final int HASH_FIELD_NUMBER = 3;
+      // required int32 clientSSLPort = 3;
+      public static final int CLIENTSSLPORT_FIELD_NUMBER = 3;
+      private int clientSSLPort_;
+      public boolean hasClientSSLPort() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public int getClientSSLPort() {
+        return clientSSLPort_;
+      }
+      
+      // required int32 CMPort = 4;
+      public static final int CMPORT_FIELD_NUMBER = 4;
+      private int cMPort_;
+      public boolean hasCMPort() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public int getCMPort() {
+        return cMPort_;
+      }
+      
+      // required string cacheHost = 5;
+      public static final int CACHEHOST_FIELD_NUMBER = 5;
+      private java.lang.Object cacheHost_;
+      public boolean hasCacheHost() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      public String getCacheHost() {
+        java.lang.Object ref = cacheHost_;
+        if (ref instanceof String) {
+          return (String) ref;
+        } else {
+          com.google.protobuf.ByteString bs = 
+              (com.google.protobuf.ByteString) ref;
+          String s = bs.toStringUtf8();
+          if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+            cacheHost_ = s;
+          }
+          return s;
+        }
+      }
+      private com.google.protobuf.ByteString getCacheHostBytes() {
+        java.lang.Object ref = cacheHost_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+          cacheHost_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      
+      // required int32 cachePort = 6;
+      public static final int CACHEPORT_FIELD_NUMBER = 6;
+      private int cachePort_;
+      public boolean hasCachePort() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public int getCachePort() {
+        return cachePort_;
+      }
+      
+      // required int64 hash = 7;
+      public static final int HASH_FIELD_NUMBER = 7;
       private long hash_;
       public boolean hasHash() {
-        return ((bitField0_ & 0x00000004) == 0x00000004);
+        return ((bitField0_ & 0x00000040) == 0x00000040);
       }
       public long getHash() {
         return hash_;
@@ -147,7 +225,11 @@ public final class ServerHashProtos {
       
       private void initFields() {
         ip_ = "";
-        port_ = 0;
+        clientPort_ = 0;
+        clientSSLPort_ = 0;
+        cMPort_ = 0;
+        cacheHost_ = "";
+        cachePort_ = 0;
         hash_ = 0L;
       }
       private byte memoizedIsInitialized = -1;
@@ -159,7 +241,23 @@ public final class ServerHashProtos {
           memoizedIsInitialized = 0;
           return false;
         }
-        if (!hasPort()) {
+        if (!hasClientPort()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasClientSSLPort()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCMPort()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCacheHost()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+        if (!hasCachePort()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -178,10 +276,22 @@ public final class ServerHashProtos {
           output.writeBytes(1, getIpBytes());
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
-          output.writeInt32(2, port_);
+          output.writeInt32(2, clientPort_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
-          output.writeInt64(3, hash_);
+          output.writeInt32(3, clientSSLPort_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          output.writeInt32(4, cMPort_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          output.writeBytes(5, getCacheHostBytes());
+        }
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          output.writeInt32(6, cachePort_);
+        }
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          output.writeInt64(7, hash_);
         }
         getUnknownFields().writeTo(output);
       }
@@ -198,11 +308,27 @@ public final class ServerHashProtos {
         }
         if (((bitField0_ & 0x00000002) == 0x00000002)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt32Size(2, port_);
+            .computeInt32Size(2, clientPort_);
         }
         if (((bitField0_ & 0x00000004) == 0x00000004)) {
           size += com.google.protobuf.CodedOutputStream
-            .computeInt64Size(3, hash_);
+            .computeInt32Size(3, clientSSLPort_);
+        }
+        if (((bitField0_ & 0x00000008) == 0x00000008)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(4, cMPort_);
+        }
+        if (((bitField0_ & 0x00000010) == 0x00000010)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeBytesSize(5, getCacheHostBytes());
+        }
+        if (((bitField0_ & 0x00000020) == 0x00000020)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt32Size(6, cachePort_);
+        }
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          size += com.google.protobuf.CodedOutputStream
+            .computeInt64Size(7, hash_);
         }
         size += getUnknownFields().getSerializedSize();
         memoizedSerializedSize = size;
@@ -216,41 +342,41 @@ public final class ServerHashProtos {
         return super.writeReplace();
       }
       
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           com.google.protobuf.ByteString data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return newBuilder().mergeFrom(data).buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           com.google.protobuf.ByteString data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return newBuilder().mergeFrom(data, extensionRegistry)
                  .buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(byte[] data)
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(byte[] data)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return newBuilder().mergeFrom(data).buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           byte[] data,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
         return newBuilder().mergeFrom(data, extensionRegistry)
                  .buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(java.io.InputStream input)
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(java.io.InputStream input)
           throws java.io.IOException {
         return newBuilder().mergeFrom(input).buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
         return newBuilder().mergeFrom(input, extensionRegistry)
                  .buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseDelimitedFrom(java.io.InputStream input)
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseDelimitedFrom(java.io.InputStream input)
           throws java.io.IOException {
         Builder builder = newBuilder();
         if (builder.mergeDelimitedFrom(input)) {
@@ -259,7 +385,7 @@ public final class ServerHashProtos {
           return null;
         }
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseDelimitedFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseDelimitedFrom(
           java.io.InputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -270,12 +396,12 @@ public final class ServerHashProtos {
           return null;
         }
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           com.google.protobuf.CodedInputStream input)
           throws java.io.IOException {
         return newBuilder().mergeFrom(input).buildParsed();
       }
-      public static com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash parseFrom(
+      public static com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo parseFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
@@ -285,7 +411,7 @@ public final class ServerHashProtos {
       
       public static Builder newBuilder() { return Builder.create(); }
       public Builder newBuilderForType() { return newBuilder(); }
-      public static Builder newBuilder(com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash prototype) {
+      public static Builder newBuilder(com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo prototype) {
         return newBuilder().mergeFrom(prototype);
       }
       public Builder toBuilder() { return newBuilder(this); }
@@ -298,18 +424,18 @@ public final class ServerHashProtos {
       }
       public static final class Builder extends
           com.google.protobuf.GeneratedMessage.Builder<Builder>
-         implements com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder {
+         implements com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder {
         public static final com.google.protobuf.Descriptors.Descriptor
             getDescriptor() {
-          return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_ServerHash_descriptor;
+          return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_ServerInfo_descriptor;
         }
         
         protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
             internalGetFieldAccessorTable() {
-          return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_ServerHash_fieldAccessorTable;
+          return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_ServerInfo_fieldAccessorTable;
         }
         
-        // Construct using com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.newBuilder()
+        // Construct using com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.newBuilder()
         private Builder() {
           maybeForceBuilderInitialization();
         }
@@ -330,10 +456,18 @@ public final class ServerHashProtos {
           super.clear();
           ip_ = "";
           bitField0_ = (bitField0_ & ~0x00000001);
-          port_ = 0;
+          clientPort_ = 0;
           bitField0_ = (bitField0_ & ~0x00000002);
-          hash_ = 0L;
+          clientSSLPort_ = 0;
           bitField0_ = (bitField0_ & ~0x00000004);
+          cMPort_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000008);
+          cacheHost_ = "";
+          bitField0_ = (bitField0_ & ~0x00000010);
+          cachePort_ = 0;
+          bitField0_ = (bitField0_ & ~0x00000020);
+          hash_ = 0L;
+          bitField0_ = (bitField0_ & ~0x00000040);
           return this;
         }
         
@@ -343,24 +477,24 @@ public final class ServerHashProtos {
         
         public com.google.protobuf.Descriptors.Descriptor
             getDescriptorForType() {
-          return com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.getDescriptor();
+          return com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.getDescriptor();
         }
         
-        public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash getDefaultInstanceForType() {
-          return com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.getDefaultInstance();
+        public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo getDefaultInstanceForType() {
+          return com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.getDefaultInstance();
         }
         
-        public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash build() {
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash result = buildPartial();
+        public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo build() {
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(result);
           }
           return result;
         }
         
-        private com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash buildParsed()
+        private com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo buildParsed()
             throws com.google.protobuf.InvalidProtocolBufferException {
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash result = buildPartial();
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo result = buildPartial();
           if (!result.isInitialized()) {
             throw newUninitializedMessageException(
               result).asInvalidProtocolBufferException();
@@ -368,8 +502,8 @@ public final class ServerHashProtos {
           return result;
         }
         
-        public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash buildPartial() {
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash result = new com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash(this);
+        public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo buildPartial() {
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo result = new com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo(this);
           int from_bitField0_ = bitField0_;
           int to_bitField0_ = 0;
           if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -379,9 +513,25 @@ public final class ServerHashProtos {
           if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
             to_bitField0_ |= 0x00000002;
           }
-          result.port_ = port_;
+          result.clientPort_ = clientPort_;
           if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
             to_bitField0_ |= 0x00000004;
+          }
+          result.clientSSLPort_ = clientSSLPort_;
+          if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+            to_bitField0_ |= 0x00000008;
+          }
+          result.cMPort_ = cMPort_;
+          if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+            to_bitField0_ |= 0x00000010;
+          }
+          result.cacheHost_ = cacheHost_;
+          if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+            to_bitField0_ |= 0x00000020;
+          }
+          result.cachePort_ = cachePort_;
+          if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+            to_bitField0_ |= 0x00000040;
           }
           result.hash_ = hash_;
           result.bitField0_ = to_bitField0_;
@@ -390,21 +540,33 @@ public final class ServerHashProtos {
         }
         
         public Builder mergeFrom(com.google.protobuf.Message other) {
-          if (other instanceof com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash) {
-            return mergeFrom((com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash)other);
+          if (other instanceof com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo) {
+            return mergeFrom((com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo)other);
           } else {
             super.mergeFrom(other);
             return this;
           }
         }
         
-        public Builder mergeFrom(com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash other) {
-          if (other == com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.getDefaultInstance()) return this;
+        public Builder mergeFrom(com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo other) {
+          if (other == com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.getDefaultInstance()) return this;
           if (other.hasIp()) {
             setIp(other.getIp());
           }
-          if (other.hasPort()) {
-            setPort(other.getPort());
+          if (other.hasClientPort()) {
+            setClientPort(other.getClientPort());
+          }
+          if (other.hasClientSSLPort()) {
+            setClientSSLPort(other.getClientSSLPort());
+          }
+          if (other.hasCMPort()) {
+            setCMPort(other.getCMPort());
+          }
+          if (other.hasCacheHost()) {
+            setCacheHost(other.getCacheHost());
+          }
+          if (other.hasCachePort()) {
+            setCachePort(other.getCachePort());
           }
           if (other.hasHash()) {
             setHash(other.getHash());
@@ -418,7 +580,23 @@ public final class ServerHashProtos {
             
             return false;
           }
-          if (!hasPort()) {
+          if (!hasClientPort()) {
+            
+            return false;
+          }
+          if (!hasClientSSLPort()) {
+            
+            return false;
+          }
+          if (!hasCMPort()) {
+            
+            return false;
+          }
+          if (!hasCacheHost()) {
+            
+            return false;
+          }
+          if (!hasCachePort()) {
             
             return false;
           }
@@ -459,11 +637,31 @@ public final class ServerHashProtos {
               }
               case 16: {
                 bitField0_ |= 0x00000002;
-                port_ = input.readInt32();
+                clientPort_ = input.readInt32();
                 break;
               }
               case 24: {
                 bitField0_ |= 0x00000004;
+                clientSSLPort_ = input.readInt32();
+                break;
+              }
+              case 32: {
+                bitField0_ |= 0x00000008;
+                cMPort_ = input.readInt32();
+                break;
+              }
+              case 42: {
+                bitField0_ |= 0x00000010;
+                cacheHost_ = input.readBytes();
+                break;
+              }
+              case 48: {
+                bitField0_ |= 0x00000020;
+                cachePort_ = input.readInt32();
+                break;
+              }
+              case 56: {
+                bitField0_ |= 0x00000040;
                 hash_ = input.readInt64();
                 break;
               }
@@ -509,76 +707,175 @@ public final class ServerHashProtos {
           onChanged();
         }
         
-        // required int32 port = 2;
-        private int port_ ;
-        public boolean hasPort() {
+        // required int32 clientPort = 2;
+        private int clientPort_ ;
+        public boolean hasClientPort() {
           return ((bitField0_ & 0x00000002) == 0x00000002);
         }
-        public int getPort() {
-          return port_;
+        public int getClientPort() {
+          return clientPort_;
         }
-        public Builder setPort(int value) {
+        public Builder setClientPort(int value) {
           bitField0_ |= 0x00000002;
-          port_ = value;
+          clientPort_ = value;
           onChanged();
           return this;
         }
-        public Builder clearPort() {
+        public Builder clearClientPort() {
           bitField0_ = (bitField0_ & ~0x00000002);
-          port_ = 0;
+          clientPort_ = 0;
           onChanged();
           return this;
         }
         
-        // required int64 hash = 3;
+        // required int32 clientSSLPort = 3;
+        private int clientSSLPort_ ;
+        public boolean hasClientSSLPort() {
+          return ((bitField0_ & 0x00000004) == 0x00000004);
+        }
+        public int getClientSSLPort() {
+          return clientSSLPort_;
+        }
+        public Builder setClientSSLPort(int value) {
+          bitField0_ |= 0x00000004;
+          clientSSLPort_ = value;
+          onChanged();
+          return this;
+        }
+        public Builder clearClientSSLPort() {
+          bitField0_ = (bitField0_ & ~0x00000004);
+          clientSSLPort_ = 0;
+          onChanged();
+          return this;
+        }
+        
+        // required int32 CMPort = 4;
+        private int cMPort_ ;
+        public boolean hasCMPort() {
+          return ((bitField0_ & 0x00000008) == 0x00000008);
+        }
+        public int getCMPort() {
+          return cMPort_;
+        }
+        public Builder setCMPort(int value) {
+          bitField0_ |= 0x00000008;
+          cMPort_ = value;
+          onChanged();
+          return this;
+        }
+        public Builder clearCMPort() {
+          bitField0_ = (bitField0_ & ~0x00000008);
+          cMPort_ = 0;
+          onChanged();
+          return this;
+        }
+        
+        // required string cacheHost = 5;
+        private java.lang.Object cacheHost_ = "";
+        public boolean hasCacheHost() {
+          return ((bitField0_ & 0x00000010) == 0x00000010);
+        }
+        public String getCacheHost() {
+          java.lang.Object ref = cacheHost_;
+          if (!(ref instanceof String)) {
+            String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+            cacheHost_ = s;
+            return s;
+          } else {
+            return (String) ref;
+          }
+        }
+        public Builder setCacheHost(String value) {
+          if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+          cacheHost_ = value;
+          onChanged();
+          return this;
+        }
+        public Builder clearCacheHost() {
+          bitField0_ = (bitField0_ & ~0x00000010);
+          cacheHost_ = getDefaultInstance().getCacheHost();
+          onChanged();
+          return this;
+        }
+        void setCacheHost(com.google.protobuf.ByteString value) {
+          bitField0_ |= 0x00000010;
+          cacheHost_ = value;
+          onChanged();
+        }
+        
+        // required int32 cachePort = 6;
+        private int cachePort_ ;
+        public boolean hasCachePort() {
+          return ((bitField0_ & 0x00000020) == 0x00000020);
+        }
+        public int getCachePort() {
+          return cachePort_;
+        }
+        public Builder setCachePort(int value) {
+          bitField0_ |= 0x00000020;
+          cachePort_ = value;
+          onChanged();
+          return this;
+        }
+        public Builder clearCachePort() {
+          bitField0_ = (bitField0_ & ~0x00000020);
+          cachePort_ = 0;
+          onChanged();
+          return this;
+        }
+        
+        // required int64 hash = 7;
         private long hash_ ;
         public boolean hasHash() {
-          return ((bitField0_ & 0x00000004) == 0x00000004);
+          return ((bitField0_ & 0x00000040) == 0x00000040);
         }
         public long getHash() {
           return hash_;
         }
         public Builder setHash(long value) {
-          bitField0_ |= 0x00000004;
+          bitField0_ |= 0x00000040;
           hash_ = value;
           onChanged();
           return this;
         }
         public Builder clearHash() {
-          bitField0_ = (bitField0_ & ~0x00000004);
+          bitField0_ = (bitField0_ & ~0x00000040);
           hash_ = 0L;
           onChanged();
           return this;
         }
         
-        // @@protoc_insertion_point(builder_scope:test.Server.ServerHash)
+        // @@protoc_insertion_point(builder_scope:test.Server.ServerInfo)
       }
       
       static {
-        defaultInstance = new ServerHash(true);
+        defaultInstance = new ServerInfo(true);
         defaultInstance.initFields();
       }
       
-      // @@protoc_insertion_point(class_scope:test.Server.ServerHash)
+      // @@protoc_insertion_point(class_scope:test.Server.ServerInfo)
     }
     
-    // repeated .test.Server.ServerHash server = 1;
+    // repeated .test.Server.ServerInfo server = 1;
     public static final int SERVER_FIELD_NUMBER = 1;
-    private java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> server_;
-    public java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> getServerList() {
+    private java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> server_;
+    public java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> getServerList() {
       return server_;
     }
-    public java.util.List<? extends com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder> 
+    public java.util.List<? extends com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder> 
         getServerOrBuilderList() {
       return server_;
     }
     public int getServerCount() {
       return server_.size();
     }
-    public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash getServer(int index) {
+    public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo getServer(int index) {
       return server_.get(index);
     }
-    public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder getServerOrBuilder(
+    public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder getServerOrBuilder(
         int index) {
       return server_.get(index);
     }
@@ -632,41 +929,41 @@ public final class ServerHashProtos {
       return super.writeReplace();
     }
     
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data).buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data, extensionRegistry)
                .buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(byte[] data)
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data).buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return newBuilder().mergeFrom(data, extensionRegistry)
                .buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(java.io.InputStream input)
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input).buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input, extensionRegistry)
                .buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseDelimitedFrom(java.io.InputStream input)
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       Builder builder = newBuilder();
       if (builder.mergeDelimitedFrom(input)) {
@@ -675,7 +972,7 @@ public final class ServerHashProtos {
         return null;
       }
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseDelimitedFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -686,12 +983,12 @@ public final class ServerHashProtos {
         return null;
       }
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return newBuilder().mergeFrom(input).buildParsed();
     }
-    public static com.netease.xmpp.master.common.ServerHashProtos.Server parseFrom(
+    public static com.netease.xmpp.master.common.ServerListProtos.Server parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -701,7 +998,7 @@ public final class ServerHashProtos {
     
     public static Builder newBuilder() { return Builder.create(); }
     public Builder newBuilderForType() { return newBuilder(); }
-    public static Builder newBuilder(com.netease.xmpp.master.common.ServerHashProtos.Server prototype) {
+    public static Builder newBuilder(com.netease.xmpp.master.common.ServerListProtos.Server prototype) {
       return newBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() { return newBuilder(this); }
@@ -714,18 +1011,18 @@ public final class ServerHashProtos {
     }
     public static final class Builder extends
         com.google.protobuf.GeneratedMessage.Builder<Builder>
-       implements com.netease.xmpp.master.common.ServerHashProtos.ServerOrBuilder {
+       implements com.netease.xmpp.master.common.ServerListProtos.ServerOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_descriptor;
+        return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_descriptor;
       }
       
       protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return com.netease.xmpp.master.common.ServerHashProtos.internal_static_test_Server_fieldAccessorTable;
+        return com.netease.xmpp.master.common.ServerListProtos.internal_static_test_Server_fieldAccessorTable;
       }
       
-      // Construct using com.netease.xmpp.master.common.ServerHashProtos.Server.newBuilder()
+      // Construct using com.netease.xmpp.master.common.ServerListProtos.Server.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -760,24 +1057,24 @@ public final class ServerHashProtos {
       
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return com.netease.xmpp.master.common.ServerHashProtos.Server.getDescriptor();
+        return com.netease.xmpp.master.common.ServerListProtos.Server.getDescriptor();
       }
       
-      public com.netease.xmpp.master.common.ServerHashProtos.Server getDefaultInstanceForType() {
-        return com.netease.xmpp.master.common.ServerHashProtos.Server.getDefaultInstance();
+      public com.netease.xmpp.master.common.ServerListProtos.Server getDefaultInstanceForType() {
+        return com.netease.xmpp.master.common.ServerListProtos.Server.getDefaultInstance();
       }
       
-      public com.netease.xmpp.master.common.ServerHashProtos.Server build() {
-        com.netease.xmpp.master.common.ServerHashProtos.Server result = buildPartial();
+      public com.netease.xmpp.master.common.ServerListProtos.Server build() {
+        com.netease.xmpp.master.common.ServerListProtos.Server result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
       
-      private com.netease.xmpp.master.common.ServerHashProtos.Server buildParsed()
+      private com.netease.xmpp.master.common.ServerListProtos.Server buildParsed()
           throws com.google.protobuf.InvalidProtocolBufferException {
-        com.netease.xmpp.master.common.ServerHashProtos.Server result = buildPartial();
+        com.netease.xmpp.master.common.ServerListProtos.Server result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(
             result).asInvalidProtocolBufferException();
@@ -785,8 +1082,8 @@ public final class ServerHashProtos {
         return result;
       }
       
-      public com.netease.xmpp.master.common.ServerHashProtos.Server buildPartial() {
-        com.netease.xmpp.master.common.ServerHashProtos.Server result = new com.netease.xmpp.master.common.ServerHashProtos.Server(this);
+      public com.netease.xmpp.master.common.ServerListProtos.Server buildPartial() {
+        com.netease.xmpp.master.common.ServerListProtos.Server result = new com.netease.xmpp.master.common.ServerListProtos.Server(this);
         int from_bitField0_ = bitField0_;
         if (serverBuilder_ == null) {
           if (((bitField0_ & 0x00000001) == 0x00000001)) {
@@ -802,16 +1099,16 @@ public final class ServerHashProtos {
       }
       
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof com.netease.xmpp.master.common.ServerHashProtos.Server) {
-          return mergeFrom((com.netease.xmpp.master.common.ServerHashProtos.Server)other);
+        if (other instanceof com.netease.xmpp.master.common.ServerListProtos.Server) {
+          return mergeFrom((com.netease.xmpp.master.common.ServerListProtos.Server)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
       
-      public Builder mergeFrom(com.netease.xmpp.master.common.ServerHashProtos.Server other) {
-        if (other == com.netease.xmpp.master.common.ServerHashProtos.Server.getDefaultInstance()) return this;
+      public Builder mergeFrom(com.netease.xmpp.master.common.ServerListProtos.Server other) {
+        if (other == com.netease.xmpp.master.common.ServerListProtos.Server.getDefaultInstance()) return this;
         if (serverBuilder_ == null) {
           if (!other.server_.isEmpty()) {
             if (server_.isEmpty()) {
@@ -876,7 +1173,7 @@ public final class ServerHashProtos {
               break;
             }
             case 10: {
-              com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder subBuilder = com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.newBuilder();
+              com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder subBuilder = com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.newBuilder();
               input.readMessage(subBuilder, extensionRegistry);
               addServer(subBuilder.buildPartial());
               break;
@@ -887,20 +1184,20 @@ public final class ServerHashProtos {
       
       private int bitField0_;
       
-      // repeated .test.Server.ServerHash server = 1;
-      private java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> server_ =
+      // repeated .test.Server.ServerInfo server = 1;
+      private java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> server_ =
         java.util.Collections.emptyList();
       private void ensureServerIsMutable() {
         if (!((bitField0_ & 0x00000001) == 0x00000001)) {
-          server_ = new java.util.ArrayList<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash>(server_);
+          server_ = new java.util.ArrayList<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo>(server_);
           bitField0_ |= 0x00000001;
          }
       }
       
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder> serverBuilder_;
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder> serverBuilder_;
       
-      public java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> getServerList() {
+      public java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> getServerList() {
         if (serverBuilder_ == null) {
           return java.util.Collections.unmodifiableList(server_);
         } else {
@@ -914,7 +1211,7 @@ public final class ServerHashProtos {
           return serverBuilder_.getCount();
         }
       }
-      public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash getServer(int index) {
+      public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo getServer(int index) {
         if (serverBuilder_ == null) {
           return server_.get(index);
         } else {
@@ -922,7 +1219,7 @@ public final class ServerHashProtos {
         }
       }
       public Builder setServer(
-          int index, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash value) {
+          int index, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo value) {
         if (serverBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -936,7 +1233,7 @@ public final class ServerHashProtos {
         return this;
       }
       public Builder setServer(
-          int index, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder builderForValue) {
+          int index, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder builderForValue) {
         if (serverBuilder_ == null) {
           ensureServerIsMutable();
           server_.set(index, builderForValue.build());
@@ -946,7 +1243,7 @@ public final class ServerHashProtos {
         }
         return this;
       }
-      public Builder addServer(com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash value) {
+      public Builder addServer(com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo value) {
         if (serverBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -960,7 +1257,7 @@ public final class ServerHashProtos {
         return this;
       }
       public Builder addServer(
-          int index, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash value) {
+          int index, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo value) {
         if (serverBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
@@ -974,7 +1271,7 @@ public final class ServerHashProtos {
         return this;
       }
       public Builder addServer(
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder builderForValue) {
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder builderForValue) {
         if (serverBuilder_ == null) {
           ensureServerIsMutable();
           server_.add(builderForValue.build());
@@ -985,7 +1282,7 @@ public final class ServerHashProtos {
         return this;
       }
       public Builder addServer(
-          int index, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder builderForValue) {
+          int index, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder builderForValue) {
         if (serverBuilder_ == null) {
           ensureServerIsMutable();
           server_.add(index, builderForValue.build());
@@ -996,7 +1293,7 @@ public final class ServerHashProtos {
         return this;
       }
       public Builder addAllServer(
-          java.lang.Iterable<? extends com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash> values) {
+          java.lang.Iterable<? extends com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> values) {
         if (serverBuilder_ == null) {
           ensureServerIsMutable();
           super.addAll(values, server_);
@@ -1026,18 +1323,18 @@ public final class ServerHashProtos {
         }
         return this;
       }
-      public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder getServerBuilder(
+      public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder getServerBuilder(
           int index) {
         return getServerFieldBuilder().getBuilder(index);
       }
-      public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder getServerOrBuilder(
+      public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder getServerOrBuilder(
           int index) {
         if (serverBuilder_ == null) {
           return server_.get(index);  } else {
           return serverBuilder_.getMessageOrBuilder(index);
         }
       }
-      public java.util.List<? extends com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder> 
+      public java.util.List<? extends com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder> 
            getServerOrBuilderList() {
         if (serverBuilder_ != null) {
           return serverBuilder_.getMessageOrBuilderList();
@@ -1045,25 +1342,25 @@ public final class ServerHashProtos {
           return java.util.Collections.unmodifiableList(server_);
         }
       }
-      public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder addServerBuilder() {
+      public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder addServerBuilder() {
         return getServerFieldBuilder().addBuilder(
-            com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.getDefaultInstance());
+            com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.getDefaultInstance());
       }
-      public com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder addServerBuilder(
+      public com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder addServerBuilder(
           int index) {
         return getServerFieldBuilder().addBuilder(
-            index, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.getDefaultInstance());
+            index, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.getDefaultInstance());
       }
-      public java.util.List<com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder> 
+      public java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder> 
            getServerBuilderList() {
         return getServerFieldBuilder().getBuilderList();
       }
       private com.google.protobuf.RepeatedFieldBuilder<
-          com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder> 
+          com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder> 
           getServerFieldBuilder() {
         if (serverBuilder_ == null) {
           serverBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
-              com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder, com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHashOrBuilder>(
+              com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder>(
                   server_,
                   ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
@@ -1090,10 +1387,10 @@ public final class ServerHashProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_test_Server_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
-    internal_static_test_Server_ServerHash_descriptor;
+    internal_static_test_Server_ServerInfo_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
-      internal_static_test_Server_ServerHash_fieldAccessorTable;
+      internal_static_test_Server_ServerInfo_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1103,11 +1400,13 @@ public final class ServerHashProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021server_list.proto\022\004test\"g\n\006Server\022\'\n\006s" +
-      "erver\030\001 \003(\0132\027.test.Server.ServerHash\0324\n\n" +
-      "ServerHash\022\n\n\002ip\030\001 \002(\t\022\014\n\004port\030\002 \002(\005\022\014\n\004" +
-      "hash\030\003 \002(\003B2\n\036com.netease.xmpp.master.co" +
-      "mmonB\020ServerHashProtos"
+      "\n\021server_list.proto\022\004test\"\273\001\n\006Server\022\'\n\006" +
+      "server\030\001 \003(\0132\027.test.Server.ServerInfo\032\207\001" +
+      "\n\nServerInfo\022\n\n\002ip\030\001 \002(\t\022\022\n\nclientPort\030\002" +
+      " \002(\005\022\025\n\rclientSSLPort\030\003 \002(\005\022\016\n\006CMPort\030\004 " +
+      "\002(\005\022\021\n\tcacheHost\030\005 \002(\t\022\021\n\tcachePort\030\006 \002(" +
+      "\005\022\014\n\004hash\030\007 \002(\003B2\n\036com.netease.xmpp.mast" +
+      "er.commonB\020ServerListProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1120,16 +1419,16 @@ public final class ServerHashProtos {
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_test_Server_descriptor,
               new java.lang.String[] { "Server", },
-              com.netease.xmpp.master.common.ServerHashProtos.Server.class,
-              com.netease.xmpp.master.common.ServerHashProtos.Server.Builder.class);
-          internal_static_test_Server_ServerHash_descriptor =
+              com.netease.xmpp.master.common.ServerListProtos.Server.class,
+              com.netease.xmpp.master.common.ServerListProtos.Server.Builder.class);
+          internal_static_test_Server_ServerInfo_descriptor =
             internal_static_test_Server_descriptor.getNestedTypes().get(0);
-          internal_static_test_Server_ServerHash_fieldAccessorTable = new
+          internal_static_test_Server_ServerInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
-              internal_static_test_Server_ServerHash_descriptor,
-              new java.lang.String[] { "Ip", "Port", "Hash", },
-              com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.class,
-              com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash.Builder.class);
+              internal_static_test_Server_ServerInfo_descriptor,
+              new java.lang.String[] { "Ip", "ClientPort", "ClientSSLPort", "CMPort", "CacheHost", "CachePort", "Hash", },
+              com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.class,
+              com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder.class);
           return null;
         }
       };

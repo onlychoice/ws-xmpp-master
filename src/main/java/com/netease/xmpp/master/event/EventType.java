@@ -7,6 +7,10 @@ public enum EventType {
      */
     SERVER_CONNECT,
     /**
+     * XMPP server info received
+     */
+    SERVER_INFO_RECV,
+    /**
      * XMPP server disconnected
      */
     SERVER_DISCONNECT,
@@ -158,5 +162,10 @@ public enum EventType {
     /**
      * Heart beat timeout.
      */
-    CLIENT_SERVER_HEARTBEAT_TIMOUT
+    CLIENT_SERVER_HEARTBEAT_TIMOUT,
+    
+    /**
+     * Server info accepted.
+     */
+    CLIENT_SERVER_INFO_ACCEPTED
 }

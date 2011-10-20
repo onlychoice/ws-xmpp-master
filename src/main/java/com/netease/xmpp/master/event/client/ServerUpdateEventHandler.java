@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.List;
 
 import com.netease.xmpp.master.common.Message;
-import com.netease.xmpp.master.common.ServerHashProtos.Server;
-import com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash;
+import com.netease.xmpp.master.common.ServerListProtos.Server;
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 import com.netease.xmpp.master.event.EventContext;
 import com.netease.xmpp.master.event.EventHandler;
 import com.netease.xmpp.master.event.EventType;
@@ -24,9 +24,9 @@ public class ServerUpdateEventHandler implements EventHandler {
         try {
             server.mergeDelimitedFrom(input);
 
-            List<ServerHash> serverHashList = server.getServerList();
-            for (ServerHash sh : serverHashList) {
-                System.out.println("IP: " + sh.getIp() + ", PORT: " + sh.getPort() + ", HASH: "
+            List<ServerInfo> serverHashList = server.getServerList();
+            for (ServerInfo sh : serverHashList) {
+                System.out.println("IP: " + sh.getIp() + ", PORT: " + sh.getClientPort() + ", HASH: "
                         + sh.getHash());
             }
             // TODO do the actual server update work

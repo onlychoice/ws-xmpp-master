@@ -2,17 +2,13 @@ package com.netease.xmpp.hash.server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.jboss.netty.channel.Channel;
-
 import com.netease.xmpp.hash.HashAlgorithm;
-import com.netease.xmpp.master.common.ServerHashProtos.Server;
-import com.netease.xmpp.master.common.ServerHashProtos.Server.ServerHash;
+import com.netease.xmpp.master.common.ServerListProtos.Server;
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 import com.netease.xmpp.master.server.ServerConfigCache;
 
 /**
@@ -21,16 +17,15 @@ import com.netease.xmpp.master.server.ServerConfigCache;
  * @author jiaozhihui@corp.netease.com
  */
 public final class KetamaNodeLocator {
-    private TreeMap<Long, Channel> ketamaNodes;
+    private TreeMap<Long, ServerInfo> ketamaNodes;
 
-    public KetamaNodeLocator(List<Channel> serverNodes, ServerConfigCache config) {
+    public KetamaNodeLocator(Collection<ServerInfo> serverNodes, ServerConfigCache config) {
         HashAlgorithm hashAlg = config.getHashAlgorithm();
         int numReps = config.getServerRepNum();
 
-        ketamaNodes = new TreeMap<Long, Channel>();
-        List<Channel> serverNodesCopy = new LinkedList<Channel>(serverNodes);
+        ketamaNodes = new TreeMap<Long, ServerInfo>();
 
-        for (Channel node : serverNodesCopy) {
+        for (ServerInfo node : serverNodes) {
             for (int i = 0; i < numReps / 4; i++) {
                 byte[] digest = hashAlg.computeMd5(getServerAddr(node) + i);
                 for (int h = 0; h < 4; h++) {
@@ -47,18 +42,15 @@ public final class KetamaNodeLocator {
 
         Server.Builder serverHashList = Server.newBuilder();
 
-        for (Map.Entry<Long, Channel> entry : ketamaNodes.entrySet()) {
+        for (Map.Entry<Long, ServerInfo> entry : ketamaNodes.entrySet()) {
             Long hash = entry.getKey();
-            Channel server = entry.getValue();
+            ServerInfo server = entry.getValue();
 
-            InetSocketAddress address = (InetSocketAddress) server.getRemoteAddress();
-            
-            ServerHash.Builder serverHash = ServerHash.newBuilder();
-            serverHash.setHash(hash);
-            serverHash.setIp(address.getAddress().getHostAddress());
-            serverHash.setPort(address.getPort());
+            ServerInfo.Builder serverInfoBuilder = ServerInfo.newBuilder();
+            serverInfoBuilder.mergeFrom(server);
+            serverInfoBuilder.setHash(hash);
 
-            serverHashList.addServer(serverHash.build());
+            serverHashList.addServer(serverInfoBuilder.build());
         }
 
         serverHashList.build().writeDelimitedTo(output);
@@ -66,10 +58,9 @@ public final class KetamaNodeLocator {
         return output.toByteArray();
     }
 
-    private String getServerAddr(Channel channel) {
-        InetSocketAddress address = (InetSocketAddress) channel.getRemoteAddress();
-        StringBuilder sb = new StringBuilder(address.getAddress().getHostAddress());
-        sb.append(":").append(address.getPort());
+    private String getServerAddr(ServerInfo serverInfo) {
+        StringBuilder sb = new StringBuilder(serverInfo.getIp());
+        sb.append(":").append(serverInfo.getCMPort());
 
         return sb.toString();
     }
