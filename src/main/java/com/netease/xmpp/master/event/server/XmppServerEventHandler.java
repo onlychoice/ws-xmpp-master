@@ -51,6 +51,10 @@ public class XmppServerEventHandler implements EventHandler {
             ServerInfo.Builder serverInfoBuilder = ServerInfo.newBuilder();
             serverInfoBuilder = serverInfoBuilder.mergeFrom(data.getData());
             InetSocketAddress address = (InetSocketAddress) channel.getRemoteAddress();
+
+            if (!checkCacheHost(serverInfoBuilder.getCacheHost())) {
+                serverInfoBuilder.setCacheHost(address.getAddress().getHostAddress());
+            }
             serverInfoBuilder.setIp(address.getAddress().getHostAddress());
 
             channel.write(acceptMessage);
@@ -74,5 +78,13 @@ public class XmppServerEventHandler implements EventHandler {
         default:
             throw new UnrecognizedEvent(type.toString());
         }
+    }
+
+    private boolean checkCacheHost(String host) {
+        if (host.equals("localhost") || host.equals("127.0.0.1")) {
+            return false;
+        }
+
+        return true;
     }
 }
