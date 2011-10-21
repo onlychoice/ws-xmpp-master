@@ -18,6 +18,11 @@ public abstract class ConfigCache {
      */
     private String hashAlgorithmClassName = null;
 
+    /**
+     * Domain of XMPP server.
+     */
+    private String xmppDomain = null;
+
     public synchronized HashAlgorithm getHashAlgorithm() {
         return hashAlgorithm;
     }
@@ -32,5 +37,13 @@ public abstract class ConfigCache {
 
     public void setHashAlgorithmClassName(String className) {
         this.hashAlgorithmClassName = className;
+    }
+
+    public String getXmppDomain() {
+        return xmppDomain;
+    }
+
+    public void setXmppDomain(String xmppDomain) {
+        this.xmppDomain = xmppDomain;
     }
 }

@@ -11,7 +11,11 @@ public final class ServerListProtos {
   public interface ServerOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
-    // repeated .test.Server.ServerInfo server = 1;
+    // required string domain = 1;
+    boolean hasDomain();
+    String getDomain();
+    
+    // repeated .test.Server.ServerInfo server = 2;
     java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> 
         getServerList();
     com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo getServer(int index);
@@ -859,8 +863,41 @@ public final class ServerListProtos {
       // @@protoc_insertion_point(class_scope:test.Server.ServerInfo)
     }
     
-    // repeated .test.Server.ServerInfo server = 1;
-    public static final int SERVER_FIELD_NUMBER = 1;
+    private int bitField0_;
+    // required string domain = 1;
+    public static final int DOMAIN_FIELD_NUMBER = 1;
+    private java.lang.Object domain_;
+    public boolean hasDomain() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public String getDomain() {
+      java.lang.Object ref = domain_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          domain_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getDomainBytes() {
+      java.lang.Object ref = domain_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        domain_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // repeated .test.Server.ServerInfo server = 2;
+    public static final int SERVER_FIELD_NUMBER = 2;
     private java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> server_;
     public java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> getServerList() {
       return server_;
@@ -881,6 +918,7 @@ public final class ServerListProtos {
     }
     
     private void initFields() {
+      domain_ = "";
       server_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
@@ -888,6 +926,10 @@ public final class ServerListProtos {
       byte isInitialized = memoizedIsInitialized;
       if (isInitialized != -1) return isInitialized == 1;
       
+      if (!hasDomain()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       for (int i = 0; i < getServerCount(); i++) {
         if (!getServer(i).isInitialized()) {
           memoizedIsInitialized = 0;
@@ -901,8 +943,11 @@ public final class ServerListProtos {
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
       getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getDomainBytes());
+      }
       for (int i = 0; i < server_.size(); i++) {
-        output.writeMessage(1, server_.get(i));
+        output.writeMessage(2, server_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -913,9 +958,13 @@ public final class ServerListProtos {
       if (size != -1) return size;
     
       size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getDomainBytes());
+      }
       for (int i = 0; i < server_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, server_.get(i));
+          .computeMessageSize(2, server_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1042,9 +1091,11 @@ public final class ServerListProtos {
       
       public Builder clear() {
         super.clear();
+        domain_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
         if (serverBuilder_ == null) {
           server_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           serverBuilder_.clear();
         }
@@ -1085,15 +1136,21 @@ public final class ServerListProtos {
       public com.netease.xmpp.master.common.ServerListProtos.Server buildPartial() {
         com.netease.xmpp.master.common.ServerListProtos.Server result = new com.netease.xmpp.master.common.ServerListProtos.Server(this);
         int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.domain_ = domain_;
         if (serverBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
             server_ = java.util.Collections.unmodifiableList(server_);
-            bitField0_ = (bitField0_ & ~0x00000001);
+            bitField0_ = (bitField0_ & ~0x00000002);
           }
           result.server_ = server_;
         } else {
           result.server_ = serverBuilder_.build();
         }
+        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -1109,11 +1166,14 @@ public final class ServerListProtos {
       
       public Builder mergeFrom(com.netease.xmpp.master.common.ServerListProtos.Server other) {
         if (other == com.netease.xmpp.master.common.ServerListProtos.Server.getDefaultInstance()) return this;
+        if (other.hasDomain()) {
+          setDomain(other.getDomain());
+        }
         if (serverBuilder_ == null) {
           if (!other.server_.isEmpty()) {
             if (server_.isEmpty()) {
               server_ = other.server_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
             } else {
               ensureServerIsMutable();
               server_.addAll(other.server_);
@@ -1126,7 +1186,7 @@ public final class ServerListProtos {
               serverBuilder_.dispose();
               serverBuilder_ = null;
               server_ = other.server_;
-              bitField0_ = (bitField0_ & ~0x00000001);
+              bitField0_ = (bitField0_ & ~0x00000002);
               serverBuilder_ = 
                 com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
                    getServerFieldBuilder() : null;
@@ -1140,6 +1200,10 @@ public final class ServerListProtos {
       }
       
       public final boolean isInitialized() {
+        if (!hasDomain()) {
+          
+          return false;
+        }
         for (int i = 0; i < getServerCount(); i++) {
           if (!getServer(i).isInitialized()) {
             
@@ -1173,6 +1237,11 @@ public final class ServerListProtos {
               break;
             }
             case 10: {
+              bitField0_ |= 0x00000001;
+              domain_ = input.readBytes();
+              break;
+            }
+            case 18: {
               com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder subBuilder = com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.newBuilder();
               input.readMessage(subBuilder, extensionRegistry);
               addServer(subBuilder.buildPartial());
@@ -1184,13 +1253,49 @@ public final class ServerListProtos {
       
       private int bitField0_;
       
-      // repeated .test.Server.ServerInfo server = 1;
+      // required string domain = 1;
+      private java.lang.Object domain_ = "";
+      public boolean hasDomain() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public String getDomain() {
+        java.lang.Object ref = domain_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          domain_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setDomain(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        domain_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearDomain() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        domain_ = getDefaultInstance().getDomain();
+        onChanged();
+        return this;
+      }
+      void setDomain(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000001;
+        domain_ = value;
+        onChanged();
+      }
+      
+      // repeated .test.Server.ServerInfo server = 2;
       private java.util.List<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo> server_ =
         java.util.Collections.emptyList();
       private void ensureServerIsMutable() {
-        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
           server_ = new java.util.ArrayList<com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo>(server_);
-          bitField0_ |= 0x00000001;
+          bitField0_ |= 0x00000002;
          }
       }
       
@@ -1306,7 +1411,7 @@ public final class ServerListProtos {
       public Builder clearServer() {
         if (serverBuilder_ == null) {
           server_ = java.util.Collections.emptyList();
-          bitField0_ = (bitField0_ & ~0x00000001);
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           serverBuilder_.clear();
@@ -1362,7 +1467,7 @@ public final class ServerListProtos {
           serverBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
               com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo.Builder, com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfoOrBuilder>(
                   server_,
-                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           server_ = null;
@@ -1400,13 +1505,14 @@ public final class ServerListProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\021server_list.proto\022\004test\"\273\001\n\006Server\022\'\n\006" +
-      "server\030\001 \003(\0132\027.test.Server.ServerInfo\032\207\001" +
-      "\n\nServerInfo\022\n\n\002ip\030\001 \002(\t\022\022\n\nclientPort\030\002" +
-      " \002(\005\022\025\n\rclientSSLPort\030\003 \002(\005\022\016\n\006CMPort\030\004 " +
-      "\002(\005\022\021\n\tcacheHost\030\005 \002(\t\022\021\n\tcachePort\030\006 \002(" +
-      "\005\022\014\n\004hash\030\007 \002(\003B2\n\036com.netease.xmpp.mast" +
-      "er.commonB\020ServerListProtos"
+      "\n\021server_list.proto\022\004test\"\313\001\n\006Server\022\016\n\006" +
+      "domain\030\001 \002(\t\022\'\n\006server\030\002 \003(\0132\027.test.Serv" +
+      "er.ServerInfo\032\207\001\n\nServerInfo\022\n\n\002ip\030\001 \002(\t" +
+      "\022\022\n\nclientPort\030\002 \002(\005\022\025\n\rclientSSLPort\030\003 " +
+      "\002(\005\022\016\n\006CMPort\030\004 \002(\005\022\021\n\tcacheHost\030\005 \002(\t\022\021" +
+      "\n\tcachePort\030\006 \002(\005\022\014\n\004hash\030\007 \002(\003B2\n\036com.n" +
+      "etease.xmpp.master.commonB\020ServerListPro" +
+      "tos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1418,7 +1524,7 @@ public final class ServerListProtos {
           internal_static_test_Server_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_test_Server_descriptor,
-              new java.lang.String[] { "Server", },
+              new java.lang.String[] { "Domain", "Server", },
               com.netease.xmpp.master.common.ServerListProtos.Server.class,
               com.netease.xmpp.master.common.ServerListProtos.Server.Builder.class);
           internal_static_test_Server_ServerInfo_descriptor =

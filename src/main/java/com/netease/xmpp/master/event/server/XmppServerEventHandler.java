@@ -6,6 +6,7 @@ import java.net.InetSocketAddress;
 import org.apache.log4j.Logger;
 import org.jboss.netty.channel.Channel;
 
+import com.netease.xmpp.master.common.ConfigCache;
 import com.netease.xmpp.master.common.Message;
 import com.netease.xmpp.master.common.MessageFlag;
 import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
@@ -18,13 +19,15 @@ import com.netease.xmpp.master.server.ClientNotifier;
 
 public class XmppServerEventHandler implements EventHandler {
     private static Logger logger = Logger.getLogger(XmppServerEventHandler.class);
-    
-    private static final Message ACCEPTED_MESSAGE = new Message(MessageFlag.FLAG_SERVER_INFO_ACCEPTED, 0, 0, null);
+
+    private final Message acceptMessage;
 
     private ClientCache clientCache = null;
 
-    public XmppServerEventHandler(ClientCache cache) {
+    public XmppServerEventHandler(ClientCache cache, ConfigCache serverConfig) {
         this.clientCache = cache;
+        byte[] data = serverConfig.getXmppDomain().getBytes();
+        acceptMessage = new Message(MessageFlag.FLAG_SERVER_INFO_ACCEPTED, 0, data.length, data);
     }
 
     @Override
@@ -49,8 +52,8 @@ public class XmppServerEventHandler implements EventHandler {
             serverInfoBuilder = serverInfoBuilder.mergeFrom(data.getData());
             InetSocketAddress address = (InetSocketAddress) channel.getRemoteAddress();
             serverInfoBuilder.setIp(address.getAddress().getHostAddress());
-            
-            channel.write(ACCEPTED_MESSAGE);
+
+            channel.write(acceptMessage);
             clientCache.addXmppServer(channel, serverInfoBuilder.build());
             ClientNotifier.notifyAllServerUpdate();
 

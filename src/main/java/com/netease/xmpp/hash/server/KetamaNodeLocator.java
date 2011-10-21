@@ -18,8 +18,11 @@ import com.netease.xmpp.master.server.ServerConfigCache;
  */
 public final class KetamaNodeLocator {
     private TreeMap<Long, ServerInfo> ketamaNodes;
+    private ServerConfigCache serverConfig = null;
 
     public KetamaNodeLocator(Collection<ServerInfo> serverNodes, ServerConfigCache config) {
+        this.serverConfig = config;
+        
         HashAlgorithm hashAlg = config.getHashAlgorithm();
         int numReps = config.getServerRepNum();
 
@@ -41,7 +44,8 @@ public final class KetamaNodeLocator {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
         Server.Builder serverHashList = Server.newBuilder();
-
+        serverHashList.setDomain(serverConfig.getXmppDomain());
+        
         for (Map.Entry<Long, ServerInfo> entry : ketamaNodes.entrySet()) {
             Long hash = entry.getKey();
             ServerInfo server = entry.getValue();

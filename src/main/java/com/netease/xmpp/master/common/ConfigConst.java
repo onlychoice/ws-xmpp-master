@@ -9,6 +9,8 @@ public class ConfigConst {
     /**
      * Keys for config.
      */
+    public static final String KEY_MASTER_XMPP_DOMAIN = "master.xmpp.domain";
+    
     public static final String KEY_MASTER_SERVER = "master.server.host";
 
     public static final String KEY_SERVER_REP_NUM = "master.server.numReps";

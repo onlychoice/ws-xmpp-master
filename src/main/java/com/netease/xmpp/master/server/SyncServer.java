@@ -53,6 +53,9 @@ public class SyncServer {
 
             prop.load(input);
 
+            String xmppDomain = prop.getProperty(ConfigConst.KEY_MASTER_XMPP_DOMAIN);
+            config.setXmppDomain(xmppDomain);
+            
             config.setHashAlgorithmClassName(prop.getProperty(ConfigConst.KEY_HASH_CLASS_NAME,
                     ConfigConst.DEFAULT_HASH_CLASS_NAME));
             String serverRepNum = prop.getProperty(ConfigConst.KEY_SERVER_REP_NUM, String
@@ -112,7 +115,7 @@ public class SyncServer {
         ClientCache clientCache = ClientCache.getInstance();
 
         XmppServerEventHandler xmppServerEventHandler = new XmppServerEventHandler(ClientCache
-                .getInstance());
+                .getInstance(), serverConfig);
         ProxyEventHandler proxyEventHandler = new ProxyEventHandler(clientCache);
         RobotEventHandler robotEventHandler = new RobotEventHandler(clientCache);
         HashAlgorithmEventHandler hashEventHandler = new HashAlgorithmEventHandler(serverConfig,
