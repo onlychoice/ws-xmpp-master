@@ -8,7 +8,14 @@
 	<property name="jar-server.file" value="master-server.jar" />
 	<property name="jar-client.file" value="master-client.jar" />
 	<property name="jar-client-src.file" value="master-client-src.jar" />
- 
+	
+	<property name="main.dir" value="${src.dir}/main" />
+	<property name="target.dir" value="${basedir}/target" />
+	<property name="dependency.dir" value="${target.dir}/dependency" />
+	
+	<property name="release.out.dir" value="${target.dir}/release"/>
+	<property name="release.name" value="master-1.0.0"/>
+	
     <path id="compile.classpath">
         <fileset dir="${java.lib.dir}">
             <include name="tools.jar" />
@@ -69,6 +76,7 @@
             </fileset>
         </jar>
     </target>
+	
 	<target name="client-src-jar">
         <jar jarfile="${dist.dir}/${jar-client-src.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
             <fileset dir="${src.dir}">
@@ -78,4 +86,40 @@
             </fileset>
         </jar>
     </target>
+	
+	<target name="release">
+		<delete file="${release.out.dir}/${release.name}.tar.gz"/>
+		
+		<property name="release.dest.dir" value="${release.out.dir}/${release.name}"/>
+		<delete dir="${release.dest.dir}"/>
+		<mkdir dir="${release.dest.dir}"/>
+		
+		<!-- Make & copy bin and resources. -->
+        <copy todir="${release.dest.dir}">
+            <fileset dir="${main.dir}">
+            	<exclude name="**/java/" />
+            </fileset>
+        </copy>
+		
+		<mkdir dir="${release.dest.dir}/lib"/>
+		<copy todir="${release.dest.dir}/lib">
+			<fileset dir="${dependency.dir}" />
+        </copy>
+		
+		<jar jarfile="${release.dest.dir}/lib/${jar-server.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
+            <fileset dir="${classes.dir}">
+            	<exclude name="**/client/" />
+            	<exclude name="**/HashAlgorithmImpl.class" />
+            	<exclude name="**/*.properties" />
+            	<exclude name="**/server_list.proto" />
+            </fileset>
+        </jar>
+		
+		<tar tarfile="${release.out.dir}/${release.name}.tar.gz"
+		     basedir="${release.out.dir}/"
+		     includes="*/**/*"
+		     compression="gzip"
+		     longfile="gnu"/>
+    </target>
+	
 </project>
