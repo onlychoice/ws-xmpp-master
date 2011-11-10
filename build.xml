@@ -58,33 +58,44 @@
     </target>
 
     <target name="server-jar">
-        <jar jarfile="${dist.dir}/${jar-server.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
+        <jar jarfile="${dist.dir}/${jar-server.file}">
             <fileset dir="${classes.dir}">
             	<exclude name="**/client/" />
             	<exclude name="**/HashAlgorithmImpl.class" />
             	<exclude name="**/*.properties" />
             </fileset>
         </jar>
+    	<manifest>
+            <attribute name="Main-Class"
+                       value="com.netease.xmpp.master.server.SyncServer"/>
+            <attribute name="Built-By" value="Netease"/>
+        </manifest>
     </target>
     
     <target name="client-jar">
-        <jar jarfile="${dist.dir}/${jar-client.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
+        <jar jarfile="${dist.dir}/${jar-client.file}">
             <fileset dir="${classes.dir}">
             	<exclude name="**/server/" />
             	<exclude name="**/HashAlgorithmImpl.class" />
             	<exclude name="**/*.properties" />
             </fileset>
         </jar>
+    	<manifest>
+            <attribute name="Built-By" value="Netease"/>
+        </manifest>
     </target>
 	
 	<target name="client-src-jar">
-        <jar jarfile="${dist.dir}/${jar-client-src.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
+        <jar jarfile="${dist.dir}/${jar-client-src.file}">
             <fileset dir="${src.dir}">
             	<exclude name="**/server/" />
             	<exclude name="**/HashAlgorithmImpl.java" />
             	<exclude name="**/*.properties" />
             </fileset>
         </jar>
+		<manifest>
+            <attribute name="Built-By" value="Netease"/>
+        </manifest>
     </target>
 	
 	<target name="release">
@@ -106,13 +117,18 @@
 			<fileset dir="${dependency.dir}" />
         </copy>
 		
-		<jar jarfile="${release.dest.dir}/lib/${jar-server.file}" manifest="${basedir}/META-INF/MANIFEST.MF">
+		<jar jarfile="${release.dest.dir}/lib/${jar-server.file}">
             <fileset dir="${classes.dir}">
             	<exclude name="**/client/" />
             	<exclude name="**/HashAlgorithmImpl.class" />
             	<exclude name="**/*.properties" />
             	<exclude name="**/server_list.proto" />
             </fileset>
+			<manifest>
+                <attribute name="Main-Class"
+                           value="com.netease.xmpp.master.server.SyncServer"/>
+                <attribute name="Built-By" value="Netease"/>
+            </manifest>
         </jar>
 		
 		<tar tarfile="${release.out.dir}/${release.name}.tar.gz"
