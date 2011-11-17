@@ -64,12 +64,12 @@
             	<exclude name="**/HashAlgorithmImpl.class" />
             	<exclude name="**/*.properties" />
             </fileset>
+        	<manifest>
+	            <attribute name="Main-Class"
+	                       value="com.netease.xmpp.master.server.SyncServer"/>
+	            <attribute name="Built-By" value="Netease"/>
+	        </manifest>
         </jar>
-    	<manifest>
-            <attribute name="Main-Class"
-                       value="com.netease.xmpp.master.server.SyncServer"/>
-            <attribute name="Built-By" value="Netease"/>
-        </manifest>
     </target>
     
     <target name="client-jar">
