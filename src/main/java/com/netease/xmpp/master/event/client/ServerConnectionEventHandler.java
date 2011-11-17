@@ -27,9 +27,9 @@ public class ServerConnectionEventHandler implements EventHandler {
 
     private AtomicBoolean isDone = new AtomicBoolean(false);
 
-    private AtomicLong timeoutTime = new AtomicLong(-1);
+    protected AtomicLong timeoutTime = new AtomicLong(-1);
 
-    private Channel serverChannel = null;
+    protected Channel serverChannel = null;
 
     private Thread timeoutChecker = null;
 
@@ -74,7 +74,7 @@ public class ServerConnectionEventHandler implements EventHandler {
         switch (event) {
         case CLIENT_SERVER_CONNECTED:
             serverChannel = channel;
-            startHeartBeat(channel);
+            startHeartBeat();
             synchronizedSet(timeoutTime, timeoutValue);
             break;
 
@@ -101,8 +101,8 @@ public class ServerConnectionEventHandler implements EventHandler {
         }
     }
 
-    private void startHeartBeat(Channel channel) {
-        worker = new HeartBeatWorker(channel);
+    private void startHeartBeat() {
+        worker = new HeartBeatWorker(serverChannel);
         worker.start();
     }
 
