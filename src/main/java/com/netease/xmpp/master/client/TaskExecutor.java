@@ -63,8 +63,9 @@ public class TaskExecutor {
         });
     }
 
-    public static TaskExecutor getInstance(int maxThreads) {
+    public static TaskExecutor getInstance() {
         if (instance == null) {
+            int maxThreads = Runtime.getRuntime().availableProcessors();
             instance = new TaskExecutor(maxThreads);
         }
 
