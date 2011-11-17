@@ -95,13 +95,13 @@ public class ServerConnectionEventHandler implements EventHandler {
         }
     }
 
-    private void synchronizedSet(AtomicLong timeoutTime, long value) {
+    protected void synchronizedSet(AtomicLong timeoutTime, long value) {
         synchronized (timeoutTime) {
             timeoutTime.set(value);
         }
     }
 
-    private void startHeartBeat() {
+    protected void startHeartBeat() {
         worker = new HeartBeatWorker(serverChannel);
         worker.start();
     }
