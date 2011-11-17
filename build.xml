@@ -6,7 +6,7 @@
     <property name="classes.dir" value="${basedir}/target/classes" />
     <property name="dist.dir" value="${basedir}/dist" />
 	<property name="jar-server.file" value="master-server.jar" />
-	<property name="jar-client.file" value="master-client.jar" />
+	<property name="jar-client.file" value="master-client-1.0.0.jar" />
 	<property name="jar-client-src.file" value="master-client-src.jar" />
 	
 	<property name="main.dir" value="${src.dir}/main" />
@@ -76,13 +76,15 @@
         <jar jarfile="${dist.dir}/${jar-client.file}">
             <fileset dir="${classes.dir}">
             	<exclude name="**/server/" />
+            	<exclude name="**/client/test/" />
             	<exclude name="**/HashAlgorithmImpl.class" />
             	<exclude name="**/*.properties" />
+            	<exclude name="**/server_list.proto" />
             </fileset>
+        	<manifest>
+	            <attribute name="Built-By" value="Netease"/>
+	        </manifest>
         </jar>
-    	<manifest>
-            <attribute name="Built-By" value="Netease"/>
-        </manifest>
     </target>
 	
 	<target name="client-src-jar">
@@ -92,10 +94,10 @@
             	<exclude name="**/HashAlgorithmImpl.java" />
             	<exclude name="**/*.properties" />
             </fileset>
+        	<manifest>
+	            <attribute name="Built-By" value="Netease"/>
+	        </manifest>
         </jar>
-		<manifest>
-            <attribute name="Built-By" value="Netease"/>
-        </manifest>
     </target>
 	
 	<target name="release">

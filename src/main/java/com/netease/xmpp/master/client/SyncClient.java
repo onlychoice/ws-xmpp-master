@@ -1,5 +1,7 @@
 package com.netease.xmpp.master.client;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
@@ -18,13 +20,9 @@ import com.netease.xmpp.master.common.ConfigConst;
 import com.netease.xmpp.master.common.MessageDecoder;
 import com.netease.xmpp.master.event.EventDispatcher;
 import com.netease.xmpp.master.event.EventType;
-import com.netease.xmpp.master.event.client.HashUpdateEventHandler;
-import com.netease.xmpp.master.event.client.ServerConnectionEventHandler;
-import com.netease.xmpp.master.event.client.ServerUpdateEventHandler;
-import com.netease.xmpp.master.event.client.UpdateCompletedEventHandler;
 import com.netease.xmpp.util.ResourceUtils;
 
-public class SyncClient {
+public abstract class SyncClient {
     private static final String CONFIG_FILE = "master.properties";
 
     public static final int CLIENT_TYPE_XMPP_SERVER = 1;
@@ -33,14 +31,27 @@ public class SyncClient {
 
     private int clientType = CLIENT_TYPE_XMPP_SERVER;
 
+    private String configPath = null;
+
     public SyncClient(int clientType) {
         this.clientType = clientType;
+    }
+
+    public void setConfigPath(String path) {
+        this.configPath = path;
     }
 
     private boolean loadConfig(ClientConfigCache config, int clientType) {
         try {
             Properties prop = new Properties();
-            InputStream input = ResourceUtils.getResourceAsStream(CONFIG_FILE);
+            InputStream input = null;
+            String configFilePath = CONFIG_FILE;
+            if (configPath != null) {
+                configFilePath = configPath + File.separator + CONFIG_FILE;
+                input = new FileInputStream(new File(configFilePath));
+            } else {
+                input = ResourceUtils.getResourceAsStream(configFilePath);
+            }
 
             prop.load(input);
 
@@ -101,38 +112,14 @@ public class SyncClient {
         bootstrap.setOption("remoteAddress", new InetSocketAddress(clientConfig
                 .getMasterServerHost(), clientConfig.getMasterServerPort()));
 
-        HashUpdateEventHandler hashUpdateEventHandler = new HashUpdateEventHandler(clientConfig);
-        ServerUpdateEventHandler serverUpdateEventHandler = new ServerUpdateEventHandler();
-        UpdateCompletedEventHandler updateCompletedEventHandler = new UpdateCompletedEventHandler();
-        ServerConnectionEventHandler serverConnectionEventHandler = new ServerConnectionEventHandler(
-                bootstrap, eventDispatcher);
-
-        eventDispatcher.registerEvent(hashUpdateEventHandler, EventType.CLIENT_HASH_UPDATED);
-
-        eventDispatcher.registerEvent(serverUpdateEventHandler, EventType.CLIENT_SERVER_UPDATED);
-        eventDispatcher.registerEvent(updateCompletedEventHandler, //
-                EventType.CLIENT_SERVER_UPDATE_COMPLETE, //
-                EventType.CLIENT_HASH_UPDATE_COMPLETE);
-
-        eventDispatcher.registerEvent(serverConnectionEventHandler, //
-                EventType.CLIENT_SERVER_CONNECTED, //
-                EventType.CLIENT_SERVER_INFO_ACCEPTED, //
-                EventType.CLIENT_SERVER_DISCONNECTED, //
-                EventType.CLIENT_SERVER_HEARTBEAT, //
-                EventType.CLIENT_SERVER_HEARTBEAT_TIMOUT);
-
+        registerCustomEvent(eventDispatcher, clientConfig, bootstrap);
+        
         ChannelFuture f = bootstrap.connect().awaitUninterruptibly();
         if (!f.isSuccess()) {
             eventDispatcher.dispatchEvent(null, null, EventType.CLIENT_SERVER_DISCONNECTED);
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        int clientType = CLIENT_TYPE_XMPP_SERVER;
-        if (args.length > 0) {
-            clientType = Integer.valueOf(args[0]);
-        }
-
-        new SyncClient(clientType).start();
-    }
+    public abstract void registerCustomEvent(EventDispatcher eventDispatcher,
+            ClientConfigCache clientConfig, ClientBootstrap bootstrap); 
 }

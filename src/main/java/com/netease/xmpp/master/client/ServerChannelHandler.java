@@ -39,12 +39,10 @@ public class ServerChannelHandler extends SimpleChannelHandler {
         } else if (flag == MessageFlag.FLAG_SERVER_INFO_ACCEPTED) {
             dispatcher.dispatchEvent(channel, message, EventType.CLIENT_SERVER_INFO_ACCEPTED);
         } else if (flag == MessageFlag.FLAG_SERVER_ALL_COMPLETE) {
-            // System.out.println("Message: " + "server info all synced");
+            dispatcher.dispatchEvent(channel, message, EventType.CLIENT_SERVER_ALL_COMPLETE);
         } else if (flag == MessageFlag.FLAG_HASH_ALL_COMPLETE) {
-            // System.out.println("Message: " + "hash info all synced");
-        } else if (flag == MessageFlag.FLAG_HEATBEAT) {
-            // logger.debug("CLIENT - SERVER_HEARTBEAT: " + channel.getRemoteAddress());
-
+            dispatcher.dispatchEvent(channel, message, EventType.CLIENT_HASH_ALL_COMPLETE);
+        } else if(flag == MessageFlag.FLAG_HEATBEAT) {
             dispatcher.dispatchEvent(channel, null, EventType.CLIENT_SERVER_HEARTBEAT);
         }
     }

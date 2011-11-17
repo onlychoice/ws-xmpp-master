@@ -2,15 +2,20 @@ package com.netease.xmpp.master.event.client;
 
 import java.io.IOException;
 
+import org.apache.log4j.Logger;
+
 import com.netease.xmpp.hash.HashAlgorithm;
 import com.netease.xmpp.hash.HashAlgorithmLoader;
 import com.netease.xmpp.master.client.ClientConfigCache;
+import com.netease.xmpp.master.client.ClientGlobal;
 import com.netease.xmpp.master.common.Message;
 import com.netease.xmpp.master.event.EventContext;
 import com.netease.xmpp.master.event.EventHandler;
 import com.netease.xmpp.master.event.EventType;
 
 public class HashUpdateEventHandler implements EventHandler {
+    private static Logger logger = Logger.getLogger(HashUpdateEventHandler.class);
+    
     private ClientConfigCache config = null;
 
     public HashUpdateEventHandler(ClientConfigCache config) {
@@ -19,6 +24,11 @@ public class HashUpdateEventHandler implements EventHandler {
 
     @Override
     public void handle(EventContext ctx) throws IOException {
+        logger.debug("Start updating hash...");
+        
+        ClientGlobal.setIsHashUpdate(false);
+        ClientGlobal.setIsAllHashUpdate(false);
+
         Message data = (Message) ctx.getData();
         byte[] classData = data.getData();
 
@@ -29,8 +39,8 @@ public class HashUpdateEventHandler implements EventHandler {
                     config.getHashAlgorithmClassName()).newInstance();
 
             config.setHashAlgorithm(hash);
-            
-            System.out.println("hash version: " + data.getVersion());
+
+            ClientGlobal.setIsHashUpdate(true);
 
             ctx.getDispatcher().dispatchEvent(ctx.getChannel(), data,
                     EventType.CLIENT_HASH_UPDATE_COMPLETE);

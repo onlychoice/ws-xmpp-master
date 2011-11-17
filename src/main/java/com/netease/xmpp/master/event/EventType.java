@@ -145,6 +145,15 @@ public enum EventType {
      * Hash info update successfully, for client event.
      */
     CLIENT_HASH_UPDATE_COMPLETE,
+    
+    /**
+     * All clients have been synced to the latest sever info, for client event.
+     */
+    CLIENT_SERVER_ALL_COMPLETE,
+    /**
+     * All clients have been synced to the latest hash info, for client event.
+     */
+    CLIENT_HASH_ALL_COMPLETE,
 
     /**
      * Client disconnected from master server.

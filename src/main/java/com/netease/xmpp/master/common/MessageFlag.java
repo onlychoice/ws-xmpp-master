@@ -7,7 +7,7 @@ package com.netease.xmpp.master.common;
  */
 public class MessageFlag {
     public static final byte FLAG_HEATBEAT = 0x00;
-    
+
     public static final byte FLAG_SERVER_UPDATED = 0x01;
     public static final byte FLAG_HASH_UPDATED = 0x02;
 
