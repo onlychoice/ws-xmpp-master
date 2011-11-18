@@ -1,6 +1,7 @@
 package com.netease.xmpp.master.server;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.jboss.netty.channel.Channel;
@@ -75,8 +76,10 @@ public final class ClientNotifier {
         clientCache.clearAllProxyServerSync();
         clientCache.clearAllRobotServerSync();
 
-        KetamaNodeLocator locator = new KetamaNodeLocator(clientCache.getXmppServerList(),
-                configCache, infoFlag);
+        List<ServerInfo> serverList = new ArrayList<ServerInfo>();
+        serverList.add(server);
+
+        KetamaNodeLocator locator = new KetamaNodeLocator(serverList, configCache, infoFlag);
 
         byte[] serverHash = locator.getServerHashList();
 
