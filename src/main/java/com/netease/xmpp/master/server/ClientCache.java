@@ -105,6 +105,10 @@ public class ClientCache {
         xmppServerList.remove(ch);
         serverVersion.incrementAndGet();
     }
+    
+    public synchronized ServerInfo getXmppServer(Channel ch) {
+        return xmppServerList.get(ch);
+    }
 
     public Collection<ServerInfo> getXmppServerList() {
         return Collections.unmodifiableCollection(xmppServerList.values());

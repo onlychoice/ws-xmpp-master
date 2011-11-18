@@ -1,14 +1,19 @@
 package test;
 
 option java_package = "com.netease.xmpp.master.common";
-option java_outer_classname="ServerHashProtos";
+option java_outer_classname="ServerListProtos";
 
 message Server {
-    message ServerHash {
+    message ServerInfo {
         required string ip = 1;
-        required int32 port = 2;
-        required int64 hash = 3;
+        required int32 clientPort = 2;
+		required int32 clientSSLPort = 3;
+		required int32 CMPort = 4;
+		required string cacheHost = 5;
+		required int32 cachePort = 6;
+        required int64 hash = 7;
     }
     
-    repeated ServerHash server = 1;
+	required string domain = 1;
+    repeated ServerInfo server = 2;
 }

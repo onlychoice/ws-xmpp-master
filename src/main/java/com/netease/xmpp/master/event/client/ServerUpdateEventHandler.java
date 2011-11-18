@@ -27,8 +27,8 @@ public abstract class ServerUpdateEventHandler implements EventHandler {
     public void handle(EventContext ctx) throws IOException {
         logger.debug("Start updating server...");
         
-        ClientGlobal.setIsServerUpdate(false);
-        ClientGlobal.setIsAllServerUpdate(false);
+        ClientGlobal.setIsServerUpdated(false);
+        ClientGlobal.setIsAllServerUpdated(false);
         
         Message data = (Message) ctx.getData();
         byte[] serverData = data.getData();
@@ -43,7 +43,7 @@ public abstract class ServerUpdateEventHandler implements EventHandler {
             config.setXmppDomain(server.getDomain());
             serverInfoUpdated(data, serverHashList);
             
-            ClientGlobal.setIsServerUpdate(true);
+            ClientGlobal.setIsServerUpdated(true);
 
             ctx.getDispatcher().dispatchEvent(ctx.getChannel(), data,
                     EventType.CLIENT_SERVER_UPDATE_COMPLETE);

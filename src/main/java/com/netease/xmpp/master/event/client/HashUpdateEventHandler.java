@@ -26,8 +26,8 @@ public class HashUpdateEventHandler implements EventHandler {
     public void handle(EventContext ctx) throws IOException {
         logger.debug("Start updating hash...");
         
-        ClientGlobal.setIsHashUpdate(false);
-        ClientGlobal.setIsAllHashUpdate(false);
+        ClientGlobal.setIsHashUpdated(false);
+        ClientGlobal.setIsAllHashUpdated(false);
 
         Message data = (Message) ctx.getData();
         byte[] classData = data.getData();
@@ -40,7 +40,7 @@ public class HashUpdateEventHandler implements EventHandler {
 
             config.setHashAlgorithm(hash);
 
-            ClientGlobal.setIsHashUpdate(true);
+            ClientGlobal.setIsHashUpdated(true);
 
             ctx.getDispatcher().dispatchEvent(ctx.getChannel(), data,
                     EventType.CLIENT_HASH_UPDATE_COMPLETE);

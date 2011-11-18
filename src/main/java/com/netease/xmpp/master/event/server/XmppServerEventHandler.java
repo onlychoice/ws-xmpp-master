@@ -58,7 +58,10 @@ public class XmppServerEventHandler implements EventHandler {
             serverInfoBuilder.setIp(address.getAddress().getHostAddress());
 
             channel.write(acceptMessage);
-            clientCache.addXmppServer(channel, serverInfoBuilder.build());
+            
+            ServerInfo addServer = serverInfoBuilder.build();
+            clientCache.addXmppServer(channel, addServer);
+            
             ClientNotifier.notifyAllServerUpdate();
 
             ctx.getDispatcher().dispatchEvent(channel, null, EventType.SERVER_HEARTBEAT_START);
@@ -66,7 +69,9 @@ public class XmppServerEventHandler implements EventHandler {
         case SERVER_DISCONNECT:
             ctx.getDispatcher().dispatchEvent(channel, null, EventType.SERVER_HEARTBEAT_STOP);
 
+            ServerInfo delServer = clientCache.getXmppServer(channel);
             clientCache.removeXmppServer(channel);
+            
             ClientNotifier.notifyAllServerUpdate();
             break;
         case SERVER_HEARTBEAT_TIMEOUT:

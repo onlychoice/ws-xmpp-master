@@ -73,7 +73,7 @@ public class TestSyncClient extends SyncClient {
     }
 
     public static void main(String[] args) throws Exception {
-        int clientType = CLIENT_TYPE_XMPP_SERVER;
+        int clientType = CLIENT_TYPE_PROXY;
         if (args.length > 0) {
             clientType = Integer.valueOf(args[0]);
         }

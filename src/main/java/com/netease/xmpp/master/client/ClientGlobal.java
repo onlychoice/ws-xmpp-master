@@ -1,7 +1,6 @@
 package com.netease.xmpp.master.client;
 
 import java.util.TreeMap;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 
@@ -10,87 +9,97 @@ public class ClientGlobal {
     /**
      * Is proxy startup?
      */
-    private static AtomicBoolean isClientStartup = new AtomicBoolean(false);
+    private static volatile boolean isClientStarted = false;
 
     /**
      * Is server info update completely?
      */
-    private static AtomicBoolean isServerUpdate = new AtomicBoolean(false);
+    private static volatile boolean isServerUpdated = false;
 
     /**
      * Is hash info update completely?
      */
-    private static AtomicBoolean isHashUpdate = new AtomicBoolean(false);
+    private static volatile boolean isHashUpdated = false;
 
     /**
      * Is all client synced to the latest server info?
      */
-    private static AtomicBoolean isAllServerUpdate = new AtomicBoolean(false);
+    private static volatile boolean isAllServerUpdated = false;
 
     /**
      * Is all client synced to the latest hash info?
      */
-    private static AtomicBoolean isAllHashUpdate = new AtomicBoolean(false);
-    
+    private static volatile boolean isAllHashUpdated = false;
+
     private static TreeMap<Long, ServerInfo> serverNodes = new TreeMap<Long, ServerInfo>();
 
-    public static boolean getIsClientStartup() {
-        return isClientStartup.get();
+    private static volatile boolean isMasterAlive = false;
+
+    public static boolean getIsClientStarted() {
+        return isClientStarted;
     }
 
-    public static void setIsClientStartup(boolean flag) {
-        isClientStartup.set(flag);
+    public static void setIsClientStarted(boolean flag) {
+        isClientStarted = flag;
     }
 
-    public static boolean getIsServerUpdate() {
-        return isServerUpdate.get();
+    public static boolean getIsServerUpdated() {
+        return isServerUpdated;
     }
 
-    public static void setIsServerUpdate(boolean flag) {
-        isServerUpdate.set(flag);
+    public static void setIsServerUpdated(boolean flag) {
+        isServerUpdated = flag;
     }
 
-    public static boolean getIsHashUpdate() {
-        return isHashUpdate.get();
+    public static boolean getIsHashUpdated() {
+        return isHashUpdated;
     }
 
-    public static void setIsHashUpdate(boolean flag) {
-        isHashUpdate.set(flag);
+    public static void setIsHashUpdated(boolean flag) {
+        isHashUpdated = flag;
     }
 
-    public static boolean getIsAllServerUpdate() {
-        return isAllServerUpdate.get();
+    public static boolean getIsAllServerUpdated() {
+        return isAllServerUpdated;
     }
 
-    public static void setIsAllServerUpdate(boolean flag) {
-        isAllServerUpdate.set(flag);
+    public static void setIsAllServerUpdated(boolean flag) {
+        isAllServerUpdated = flag;
     }
 
-    public static boolean getIsAllHashUpdate() {
-        return isAllHashUpdate.get();
+    public static boolean getIsAllHashUpdated() {
+        return isAllHashUpdated;
     }
 
-    public static void setIsAllHashUpdate(boolean flag) {
-        isAllHashUpdate.set(flag);
+    public static void setIsAllHashUpdated(boolean flag) {
+        isAllHashUpdated = flag;
+    }
+
+    public static boolean getIsMasterAlive() {
+        return isMasterAlive;
+    }
+
+    public static void setIsMasterAlive(boolean flag) {
+        isMasterAlive = flag;
     }
 
     public static synchronized boolean getIsUpdating() {
-        if (getIsAllServerUpdate() && getIsAllHashUpdate()) {
+        if (getIsAllServerUpdated() && getIsAllHashUpdated()) {
             return false;
         }
 
         return true;
     }
-    
-    public static TreeMap<Long, ServerInfo> getServerNodes() {
+
+    public static synchronized TreeMap<Long, ServerInfo> getServerNodes() {
         return serverNodes;
     }
 
-    public static void setServerNodes(TreeMap<Long, ServerInfo> serverNodes) {
+    public static synchronized void setServerNodes(TreeMap<Long, ServerInfo> serverNodes) {
         ClientGlobal.serverNodes = serverNodes;
     }
 
-    public static ServerInfo getServerNodeForKey(Long key) {
+    public static synchronized ServerInfo getServerNodeForKey(Long key) {
         if (!serverNodes.containsKey(key)) {
             key = serverNodes.ceilingKey(key);
             if (key == null) {

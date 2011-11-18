@@ -67,9 +67,7 @@ public class ServerChannelHandler extends SimpleChannelHandler {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, ExceptionEvent e) {
-        Channel channel = e.getChannel();
-
-        logger.debug("CLIENT - EXCEPTION: " + channel.getRemoteAddress());
+        logger.debug("CLIENT - EXCEPTION: " + e.getCause().getMessage());
     }
 
     @Override

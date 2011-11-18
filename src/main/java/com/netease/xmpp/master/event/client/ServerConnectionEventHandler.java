@@ -1,7 +1,7 @@
 package com.netease.xmpp.master.event.client;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.log4j.Logger;
@@ -9,7 +9,8 @@ import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
-import org.jboss.netty.channel.ChannelPipelineException;
+
+import com.netease.xmpp.master.client.ClientGlobal;
 import com.netease.xmpp.master.common.ConfigConst;
 import com.netease.xmpp.master.common.HeartBeatWorker;
 import com.netease.xmpp.master.event.EventContext;
@@ -22,10 +23,7 @@ public class ServerConnectionEventHandler implements EventHandler {
     private static Logger logger = Logger.getLogger(ServerConnectionEventHandler.class);
 
     private ClientBootstrap bootstrap = null;
-
     private HeartBeatWorker worker = null;
-
-    private AtomicBoolean isDone = new AtomicBoolean(false);
 
     protected AtomicLong timeoutTime = new AtomicLong(-1);
 
@@ -34,6 +32,9 @@ public class ServerConnectionEventHandler implements EventHandler {
     private Thread timeoutChecker = null;
 
     private EventDispatcher eventDispatcher = null;
+
+    private Semaphore sep = new Semaphore(1);
+    private boolean isConnected = false;
 
     public ServerConnectionEventHandler(ClientBootstrap bootstrap, EventDispatcher dispatcher) {
         this.bootstrap = bootstrap;
@@ -73,17 +74,22 @@ public class ServerConnectionEventHandler implements EventHandler {
         long timeoutValue = System.currentTimeMillis() + ConfigConst.HEARTBEAT_TIMEOUT * 1000;
         switch (event) {
         case CLIENT_SERVER_CONNECTED:
+            ClientGlobal.setIsMasterAlive(true);
+
             serverChannel = channel;
             startHeartBeat();
             synchronizedSet(timeoutTime, timeoutValue);
             break;
 
         case CLIENT_SERVER_HEARTBEAT_TIMOUT:
+            ClientGlobal.setIsMasterAlive(false);
+
             synchronizedSet(timeoutTime, -1);
             serverChannel.close().awaitUninterruptibly();
             break;
 
         case CLIENT_SERVER_DISCONNECTED:
+            ClientGlobal.setIsMasterAlive(false);
             reconnect();
             break;
 
@@ -106,36 +112,45 @@ public class ServerConnectionEventHandler implements EventHandler {
         worker.start();
     }
 
-    private synchronized void reconnect() {
+    private void reconnect() {
         if (worker != null) {
             worker.stop();
         }
 
         while (true) {
             logger.info("START RECONNECTING......");
+            // Make sure next acquire get the permit
+            sep.release();
 
-            isDone.set(false);
-            try {
-                ChannelFuture f = bootstrap.connect();
-                f.addListener(new ChannelFutureListener() {
-                    @Override
-                    public void operationComplete(ChannelFuture future) throws Exception {
-                        if (future.isSuccess()) {
-                            isDone.set(true);
-                        }
+            isConnected = false;
+            // Enter the door
+            sep.acquireUninterruptibly();
+
+            ChannelFuture f = bootstrap.connect();
+            f.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture future) throws Exception {
+                    if (future.isSuccess()) {
+                        isConnected = true;
                     }
-                });
 
-                Thread.sleep(10 * 1000);
-
-                if (isDone.get()) {
-                    logger.info("SERVER CONNECTED");
-                    break;
+                    sep.release();
                 }
-            } catch (ChannelPipelineException e) {
-                // Do nothing
+            });
+
+            // Get the permit
+            sep.acquireUninterruptibly();
+
+            if (isConnected) {
+                logger.info("SERVER CONNECTED");
+                break;
+            }
+
+            try {
+                // sleep 5 sec for next retry
+                Thread.sleep(5000);
             } catch (InterruptedException e) {
-                // Do nothing
+                // continue
             }
         }
     }

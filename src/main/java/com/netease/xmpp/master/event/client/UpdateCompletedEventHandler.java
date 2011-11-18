@@ -35,12 +35,12 @@ public abstract class UpdateCompletedEventHandler implements EventHandler {
             break;
         case CLIENT_SERVER_ALL_COMPLETE:
             logger.debug("All server info updated: " + data.getVersion());
-            ClientGlobal.setIsAllServerUpdate(true);
+            ClientGlobal.setIsAllServerUpdated(true);
             allServerUpdated();
             break;
         case CLIENT_HASH_ALL_COMPLETE:
             logger.debug("All hash info updated: " + data.getVersion());
-            ClientGlobal.setIsAllHashUpdate(true);
+            ClientGlobal.setIsAllHashUpdated(true);
             allHashUpdated();
             break;
         default:
