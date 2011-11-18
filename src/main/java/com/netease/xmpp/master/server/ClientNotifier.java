@@ -8,6 +8,7 @@ import org.jboss.netty.channel.Channel;
 import com.netease.xmpp.hash.server.KetamaNodeLocator;
 import com.netease.xmpp.master.common.Message;
 import com.netease.xmpp.master.common.MessageFlag;
+import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
 
 /**
  * Notifier for client with updated info.
@@ -27,14 +28,38 @@ public final class ClientNotifier {
         ClientCache clientCache = ClientCache.getInstance();
         ServerConfigCache configCache = ServerConfigCache.getInstance();
         KetamaNodeLocator locator = new KetamaNodeLocator(clientCache.getXmppServerList(),
-                configCache);
+                configCache, MessageFlag.FLAG_SERVER_ALL);
 
         byte[] serverHash = locator.getServerHashList();
 
-        Message message = new Message(MessageFlag.FLAG_SERVER_UPDATED, clientCache.getServerVersion(),
-                serverHash.length, serverHash);
+        Message message = new Message(MessageFlag.FLAG_SERVER_UPDATED, clientCache
+                .getServerVersion(), serverHash.length, serverHash);
 
         channel.write(message);
+    }
+
+    /**
+     * Server added.
+     * 
+     * @param server
+     *            the server added
+     * @throws IOException
+     *             throws when build server hash info
+     */
+    public static void notifyAllServerAdded(ServerInfo server) throws IOException {
+        notifyAllServerUpdate(server, MessageFlag.FLAG_SERVER_ADD);
+    }
+
+    /**
+     * Server Down
+     * 
+     * @param server
+     *            the server down
+     * @throws IOException
+     *             throws when build server hash info
+     */
+    public static void notifyAllServerDown(ServerInfo server) throws IOException {
+        notifyAllServerUpdate(server, MessageFlag.FLAG_SERVER_DEL);
     }
 
     /**
@@ -43,7 +68,7 @@ public final class ClientNotifier {
      * @throws IOException
      *             throws when build server hash info
      */
-    public static void notifyAllServerUpdate() throws IOException {
+    private static void notifyAllServerUpdate(ServerInfo server, int infoFlag) throws IOException {
         ClientCache clientCache = ClientCache.getInstance();
         ServerConfigCache configCache = ServerConfigCache.getInstance();
 
@@ -51,12 +76,12 @@ public final class ClientNotifier {
         clientCache.clearAllRobotServerSync();
 
         KetamaNodeLocator locator = new KetamaNodeLocator(clientCache.getXmppServerList(),
-                configCache);
+                configCache, infoFlag);
 
         byte[] serverHash = locator.getServerHashList();
 
-        Message message = new Message(MessageFlag.FLAG_SERVER_UPDATED, clientCache.getServerVersion(),
-                serverHash.length, serverHash);
+        Message message = new Message(MessageFlag.FLAG_SERVER_UPDATED, clientCache
+                .getServerVersion(), serverHash.length, serverHash);
 
         List<Channel> proxyList = clientCache.getProxyList();
 

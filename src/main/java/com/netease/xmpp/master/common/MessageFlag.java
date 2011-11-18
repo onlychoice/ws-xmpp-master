@@ -16,7 +16,14 @@ public class MessageFlag {
 
     public static final byte FLAG_SERVER_UPDATE_COMPLETE = 0x11;
     public static final byte FLAG_HASH_UPDATE_COMPLETE = 0x12;
-    
+
     public static final byte FLAG_SERVER_INFO = 0x21;
-    public static final byte FLAG_SERVER_INFO_ACCEPTED = 0x21;
+    public static final byte FLAG_SERVER_INFO_ACCEPTED = 0x22;
+
+    /**
+     * For server info.
+     */
+    public static final int FLAG_SERVER_ADD = 1;
+    public static final int FLAG_SERVER_DEL = 2;
+    public static final int FLAG_SERVER_ALL = 3;
 }

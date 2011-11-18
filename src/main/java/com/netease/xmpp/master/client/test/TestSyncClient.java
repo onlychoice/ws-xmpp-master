@@ -1,13 +1,11 @@
 package com.netease.xmpp.master.client.test;
 
-import java.util.List;
-
 import org.jboss.netty.bootstrap.ClientBootstrap;
 
 import com.netease.xmpp.master.client.ClientConfigCache;
 import com.netease.xmpp.master.client.SyncClient;
 import com.netease.xmpp.master.common.Message;
-import com.netease.xmpp.master.common.ServerListProtos.Server.ServerInfo;
+import com.netease.xmpp.master.common.ServerListProtos.Server;
 import com.netease.xmpp.master.event.EventDispatcher;
 import com.netease.xmpp.master.event.EventType;
 import com.netease.xmpp.master.event.client.HashUpdateEventHandler;
@@ -22,9 +20,10 @@ public class TestSyncClient extends SyncClient {
         }
 
         @Override
-        public void serverInfoUpdated(Message data, List<ServerInfo> serverHashList) {
+        public void serverInfoUpdated(Message data, Server server) {
+            System.out.println("Flag: " + server.getServerFlag());
             System.out.println("Server version: " + data.getVersion() + ", server size: "
-                    + serverHashList.size());
+                    + server.getServerList().size());
         }
     }
 
