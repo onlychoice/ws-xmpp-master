@@ -31,9 +31,11 @@ public class TaskExecutor {
                         Runnable task = clientTaskQueue.take();
                         if (ClientGlobal.getIsUpdating()) {
                             synchronized (clientTaskExecutor) {
+                                logger.debug("Client task waiting...");
                                 clientTaskExecutor.wait();
                             }
                         }
+                        logger.debug("Client task working...");
                         threadPool.execute(task);
                     } catch (InterruptedException e) {
                         logger.error(e.getMessage());
@@ -50,10 +52,12 @@ public class TaskExecutor {
                         Runnable task = serverTaskQueue.take();
                         if (ClientGlobal.getIsUpdating()) {
                             synchronized (serverTaskExecutor) {
+                                logger.debug("Server task working...");
                                 serverTaskExecutor.wait();
                             }
                         }
 
+                        logger.debug("Server task working...");
                         threadPool.execute(task);
                     } catch (InterruptedException e) {
                         logger.error(e.getMessage());
