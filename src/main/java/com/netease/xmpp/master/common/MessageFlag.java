@@ -25,5 +25,4 @@ public class MessageFlag {
      */
     public static final int FLAG_SERVER_ADD = 1;
     public static final int FLAG_SERVER_DEL = 2;
-    public static final int FLAG_SERVER_ALL = 3;
 }

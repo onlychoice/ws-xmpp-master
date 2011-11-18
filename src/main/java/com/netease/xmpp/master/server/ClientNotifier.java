@@ -28,7 +28,7 @@ public final class ClientNotifier {
         ClientCache clientCache = ClientCache.getInstance();
         ServerConfigCache configCache = ServerConfigCache.getInstance();
         KetamaNodeLocator locator = new KetamaNodeLocator(clientCache.getXmppServerList(),
-                configCache, MessageFlag.FLAG_SERVER_ALL);
+                configCache, MessageFlag.FLAG_SERVER_ADD);
 
         byte[] serverHash = locator.getServerHashList();
 
