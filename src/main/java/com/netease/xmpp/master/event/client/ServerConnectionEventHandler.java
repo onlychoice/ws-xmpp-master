@@ -10,7 +10,6 @@ import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
 import org.jboss.netty.channel.ChannelFutureListener;
 
-import com.netease.xmpp.master.client.ClientGlobal;
 import com.netease.xmpp.master.common.ConfigConst;
 import com.netease.xmpp.master.common.HeartBeatWorker;
 import com.netease.xmpp.master.event.EventContext;
@@ -74,22 +73,17 @@ public class ServerConnectionEventHandler implements EventHandler {
         long timeoutValue = System.currentTimeMillis() + ConfigConst.HEARTBEAT_TIMEOUT * 1000;
         switch (event) {
         case CLIENT_SERVER_CONNECTED:
-            ClientGlobal.setIsMasterAlive(true);
-
             serverChannel = channel;
             startHeartBeat();
             synchronizedSet(timeoutTime, timeoutValue);
             break;
 
         case CLIENT_SERVER_HEARTBEAT_TIMOUT:
-            ClientGlobal.setIsMasterAlive(false);
-
             synchronizedSet(timeoutTime, -1);
             serverChannel.close().awaitUninterruptibly();
             break;
 
         case CLIENT_SERVER_DISCONNECTED:
-            ClientGlobal.setIsMasterAlive(false);
             reconnect();
             break;
 

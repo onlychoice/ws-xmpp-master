@@ -33,7 +33,7 @@ public class ClientGlobal {
 
     private static TreeMap<Long, ServerInfo> serverNodes = new TreeMap<Long, ServerInfo>();
 
-    private static volatile boolean isMasterAlive = false;
+    private static int serverVersion = 0;
 
     public static boolean getIsClientStarted() {
         return isClientStarted;
@@ -75,14 +75,6 @@ public class ClientGlobal {
         isAllHashUpdated = flag;
     }
 
-    public static boolean getIsMasterAlive() {
-        return isMasterAlive;
-    }
-
-    public static void setIsMasterAlive(boolean flag) {
-        isMasterAlive = flag;
-    }
-
     public static synchronized boolean getIsUpdating() {
         if (getIsAllServerUpdated() && getIsAllHashUpdated()) {
             return false;
@@ -108,5 +100,13 @@ public class ClientGlobal {
         }
 
         return serverNodes.get(key);
+    }
+
+    public static synchronized int getServerVersion() {
+        return serverVersion;
+    }
+
+    public static synchronized void setServerVersion(int version) {
+        serverVersion = version;
     }
 }
