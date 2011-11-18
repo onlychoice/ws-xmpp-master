@@ -1,14 +1,12 @@
 package com.netease.xmpp.master.event.client;
 
 import java.io.IOException;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
-import org.jboss.netty.channel.ChannelFutureListener;
 
 import com.netease.xmpp.master.common.ConfigConst;
 import com.netease.xmpp.master.common.HeartBeatWorker;
@@ -31,9 +29,6 @@ public class ServerConnectionEventHandler implements EventHandler {
     private Thread timeoutChecker = null;
 
     private EventDispatcher eventDispatcher = null;
-
-    private Semaphore sep = new Semaphore(1);
-    private boolean isConnected = false;
 
     public ServerConnectionEventHandler(ClientBootstrap bootstrap, EventDispatcher dispatcher) {
         this.bootstrap = bootstrap;
@@ -113,29 +108,11 @@ public class ServerConnectionEventHandler implements EventHandler {
 
         while (true) {
             logger.info("START RECONNECTING......");
-            // Make sure next acquire get the permit
-            sep.release();
-
-            isConnected = false;
-            // Enter the door
-            sep.acquireUninterruptibly();
 
             ChannelFuture f = bootstrap.connect();
-            f.addListener(new ChannelFutureListener() {
-                @Override
-                public void operationComplete(ChannelFuture future) throws Exception {
-                    if (future.isSuccess()) {
-                        isConnected = true;
-                    }
+            f.awaitUninterruptibly();
 
-                    sep.release();
-                }
-            });
-
-            // Get the permit
-            sep.acquireUninterruptibly();
-
-            if (isConnected) {
+            if (f.isDone() && f.isSuccess()) {
                 logger.info("SERVER CONNECTED");
                 break;
             }

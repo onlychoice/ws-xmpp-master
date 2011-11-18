@@ -3,6 +3,8 @@ package com.netease.xmpp.master.event;
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import org.jboss.netty.channel.Channel;
 
@@ -13,6 +15,8 @@ import org.jboss.netty.channel.Channel;
  */
 public class EventDispatcher {
     private static EventDispatcher instance = null;
+
+    private ExecutorService executor = null;
 
     public static EventDispatcher getInstance() {
         if (instance == null) {
@@ -28,7 +32,7 @@ public class EventDispatcher {
     private Map<EventType, EventHandler> handlerMap = new ConcurrentHashMap<EventType, EventHandler>();
 
     private EventDispatcher() {
-        // Do nothing
+        executor = Executors.newCachedThreadPool();
     }
 
     /**
@@ -65,14 +69,21 @@ public class EventDispatcher {
      * @param event
      *            event type
      */
-    public void dispatchEvent(Channel channel, Object data, EventType event) {
-        EventHandler handler = handlerMap.get(event);
-        if (handler != null) {
-            try {
-                handler.handle(new EventContext(this, channel, data, event));
-            } catch (IOException e) {
-                e.printStackTrace();
+    public void dispatchEvent(Channel channel, Object data, final EventType event) {
+        final EventContext ctx = new EventContext(this, channel, data, event);
+
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    EventHandler handler = handlerMap.get(event);
+                    if (handler != null) {
+                        handler.handle(ctx);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        }
+        });
     }
 }
