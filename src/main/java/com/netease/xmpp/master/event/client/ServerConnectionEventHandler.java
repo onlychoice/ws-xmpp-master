@@ -1,7 +1,6 @@
 package com.netease.xmpp.master.event.client;
 
 import java.io.IOException;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.apache.log4j.Logger;
 import org.jboss.netty.bootstrap.ClientBootstrap;
@@ -22,7 +21,7 @@ public class ServerConnectionEventHandler implements EventHandler {
     private ClientBootstrap bootstrap = null;
     private HeartBeatWorker worker = null;
 
-    protected AtomicLong timeoutTime = new AtomicLong(-1);
+    protected volatile long timeoutTime = -1;
 
     protected Channel serverChannel = null;
 
@@ -38,14 +37,12 @@ public class ServerConnectionEventHandler implements EventHandler {
             @Override
             public void run() {
                 while (true) {
-                    synchronized (timeoutTime) {
-                        if (timeoutTime.get() > 0) {
-                            if (timeoutTime.get() <= System.currentTimeMillis()) {
-                                logger.debug("SERVER_HEARTBEAT_TIMOUT");
-                                eventDispatcher.dispatchEvent(null, null,
-                                        EventType.CLIENT_SERVER_HEARTBEAT_TIMOUT);
-                            }
-                        }
+                    // Read time
+                    long time = timeoutTime;
+                    if (time > 0 && time <= System.currentTimeMillis()) {
+                        logger.debug("SERVER_HEARTBEAT_TIMOUT");
+                        eventDispatcher.dispatchEvent(null, null,
+                                EventType.CLIENT_SERVER_HEARTBEAT_TIMOUT);
                     }
 
                     try {
@@ -56,8 +53,6 @@ public class ServerConnectionEventHandler implements EventHandler {
                 }
             }
         });
-
-        timeoutChecker.start();
     }
 
     @Override
@@ -70,11 +65,11 @@ public class ServerConnectionEventHandler implements EventHandler {
         case CLIENT_SERVER_CONNECTED:
             serverChannel = channel;
             startHeartBeat();
-            synchronizedSet(timeoutTime, timeoutValue);
+            timeoutTime = timeoutValue;
             break;
 
         case CLIENT_SERVER_HEARTBEAT_TIMOUT:
-            synchronizedSet(timeoutTime, -1);
+            timeoutTime = -1;
             serverChannel.close().awaitUninterruptibly();
             break;
 
@@ -83,22 +78,17 @@ public class ServerConnectionEventHandler implements EventHandler {
             break;
 
         case CLIENT_SERVER_HEARTBEAT:
-            synchronizedSet(timeoutTime, timeoutValue);
+            timeoutTime = timeoutValue;
             break;
         default:
             throw new UnrecognizedEvent(event.toString());
         }
     }
 
-    protected void synchronizedSet(AtomicLong timeoutTime, long value) {
-        synchronized (timeoutTime) {
-            timeoutTime.set(value);
-        }
-    }
-
     protected void startHeartBeat() {
         worker = new HeartBeatWorker(serverChannel);
         worker.start();
+        timeoutChecker.start();
     }
 
     private void reconnect() {

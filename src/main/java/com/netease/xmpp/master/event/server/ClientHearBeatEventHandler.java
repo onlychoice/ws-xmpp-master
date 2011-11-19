@@ -112,15 +112,15 @@ public class ClientHearBeatEventHandler implements EventHandler {
          * Start heart beat
          */
         case SERVER_HEARTBEAT_START:
-            synchronizedPut(xmppServerHeartBeatTimeoutMap, channel, timeoutTime);
+            xmppServerHeartBeatTimeoutMap.put(channel, timeoutTime);
             startHeartBeat(channel);
             break;
         case PROXY_HEARTBEAT_START:
-            synchronizedPut(proxyHeartBeatTimeoutMap, channel, timeoutTime);
+            proxyHeartBeatTimeoutMap.put(channel, timeoutTime);
             startHeartBeat(channel);
             break;
         case ROBOT_HEARTBEAT_START:
-            synchronizedPut(robotHeartBeatTimeoutMap, channel, timeoutTime);
+            robotHeartBeatTimeoutMap.put(channel, timeoutTime);
             startHeartBeat(channel);
             break;
 
@@ -128,15 +128,15 @@ public class ClientHearBeatEventHandler implements EventHandler {
          * Stop heart beat
          */
         case SERVER_HEARTBEAT_STOP:
-            synchronizedRemove(xmppServerHeartBeatTimeoutMap, channel);
+            xmppServerHeartBeatTimeoutMap.remove(channel);
             stopHeartBeat(channel);
             break;
         case PROXY_HEARTBEAT_STOP:
-            synchronizedRemove(proxyHeartBeatTimeoutMap, channel);
+            proxyHeartBeatTimeoutMap.remove(channel);
             stopHeartBeat(channel);
             break;
         case ROBOT_HEARTBEAT_STOP:
-            synchronizedRemove(robotHeartBeatTimeoutMap, channel);
+            robotHeartBeatTimeoutMap.remove(channel);
             stopHeartBeat(channel);
             break;
 
@@ -144,13 +144,13 @@ public class ClientHearBeatEventHandler implements EventHandler {
          * Normal heart beat
          */
         case SERVER_HEARTBEAT:
-            synchronizedPut(xmppServerHeartBeatTimeoutMap, channel, timeoutTime);
+            xmppServerHeartBeatTimeoutMap.put(channel, timeoutTime);
             break;
         case PROXY_HEARTBEAT:
-            synchronizedPut(proxyHeartBeatTimeoutMap, channel, timeoutTime);
+            proxyHeartBeatTimeoutMap.put(channel, timeoutTime);
             break;
         case ROBOT_HEARTBEAT:
-            synchronizedPut(robotHeartBeatTimeoutMap, channel, timeoutTime);
+            robotHeartBeatTimeoutMap.put(channel, timeoutTime);
             break;
         default:
             throw new UnrecognizedEvent(event.toString());
@@ -169,17 +169,5 @@ public class ClientHearBeatEventHandler implements EventHandler {
             threadPool.execute(new HeartBeatWorkerStoper(worker));
         }
         heartBeatWorkerMap.remove(channel);
-    }
-
-    private void synchronizedPut(Map<Channel, Long> timeoutMap, Channel channel, long time) {
-        synchronized (timeoutMap) {
-            timeoutMap.put(channel, time);
-        }
-    }
-
-    private void synchronizedRemove(Map<Channel, Long> timeoutMap, Channel channel) {
-        synchronized (timeoutMap) {
-            timeoutMap.remove(channel);
-        }
     }
 }

@@ -31,8 +31,10 @@ public class TaskExecutor {
                         Runnable task = clientTaskQueue.take();
                         if (ClientGlobal.getIsUpdating()) {
                             synchronized (clientTaskExecutor) {
-                                logger.debug("Client task waiting...");
-                                clientTaskExecutor.wait();
+                                if (ClientGlobal.getIsUpdating()) {
+                                    logger.debug("Client task waiting...");
+                                    clientTaskExecutor.wait();
+                                }
                             }
                         }
                         threadPool.execute(task);
@@ -51,8 +53,11 @@ public class TaskExecutor {
                         Runnable task = serverTaskQueue.take();
                         if (ClientGlobal.getIsUpdating()) {
                             synchronized (serverTaskExecutor) {
-                                logger.debug("Server task waiting...");
-                                serverTaskExecutor.wait();
+                                if (ClientGlobal.getIsUpdating()) {
+                                    logger.debug("Server task waiting...");
+                                    serverTaskExecutor.wait();
+                                }
+
                             }
                         }
                         threadPool.execute(task);

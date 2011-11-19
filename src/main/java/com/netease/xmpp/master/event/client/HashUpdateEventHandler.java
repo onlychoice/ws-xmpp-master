@@ -1,6 +1,8 @@
 package com.netease.xmpp.master.event.client;
 
 import java.io.IOException;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
 
 import org.apache.log4j.Logger;
 
@@ -15,7 +17,7 @@ import com.netease.xmpp.master.event.EventType;
 
 public class HashUpdateEventHandler implements EventHandler {
     private static Logger logger = Logger.getLogger(HashUpdateEventHandler.class);
-    
+
     private ClientConfigCache config = null;
 
     public HashUpdateEventHandler(ClientConfigCache config) {
@@ -25,15 +27,21 @@ public class HashUpdateEventHandler implements EventHandler {
     @Override
     public void handle(EventContext ctx) throws IOException {
         logger.debug("Start updating hash...");
-        
+
         ClientGlobal.setIsHashUpdated(false);
         ClientGlobal.setIsAllHashUpdated(false);
 
         Message data = (Message) ctx.getData();
-        byte[] classData = data.getData();
+        final byte[] classData = data.getData();
 
-        ClassLoader loader = new HashAlgorithmLoader(HashUpdateEventHandler.class.getClassLoader(),
-                classData, config);
+        ClassLoader loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+            @Override
+            public ClassLoader run() {
+                return new HashAlgorithmLoader(HashUpdateEventHandler.class.getClassLoader(),
+                        classData, config);
+            }
+        });
+
         try {
             HashAlgorithm hash = (HashAlgorithm) loader.loadClass(
                     config.getHashAlgorithmClassName()).newInstance();
