@@ -10,7 +10,6 @@ import com.netease.xmpp.hash.HashAlgorithm;
 import com.netease.xmpp.hash.HashAlgorithmLoader;
 import com.netease.xmpp.master.event.EventContext;
 import com.netease.xmpp.master.event.EventHandler;
-import com.netease.xmpp.master.event.client.HashUpdateEventHandler;
 import com.netease.xmpp.master.server.ClientCache;
 import com.netease.xmpp.master.server.ClientNotifier;
 import com.netease.xmpp.master.server.ServerConfigCache;
@@ -35,7 +34,7 @@ public class HashAlgorithmEventHandler implements EventHandler {
         ClassLoader loader = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
             @Override
             public ClassLoader run() {
-                return new HashAlgorithmLoader(HashUpdateEventHandler.class.getClassLoader(),
+                return new HashAlgorithmLoader(HashAlgorithmEventHandler.class.getClassLoader(),
                         hashData, config);
             }
         });
