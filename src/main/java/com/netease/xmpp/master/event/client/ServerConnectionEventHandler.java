@@ -53,6 +53,8 @@ public class ServerConnectionEventHandler implements EventHandler {
                 }
             }
         });
+        
+        timeoutChecker.start();
     }
 
     @Override
@@ -88,7 +90,6 @@ public class ServerConnectionEventHandler implements EventHandler {
     protected void startHeartBeat() {
         worker = new HeartBeatWorker(serverChannel);
         worker.start();
-        timeoutChecker.start();
     }
 
     private void reconnect() {
