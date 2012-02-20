@@ -1,0 +1,1 @@
+This component provide the basic functionality for load balancing.
