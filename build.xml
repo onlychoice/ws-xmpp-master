@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<project name="WXMaster" default="server-jar" basedir=".">
+<project name="WXMaster" default="release" basedir=".">
     <property name="src.dir" value="${basedir}/src" />
 	<property name="java.lib.dir" value="D:/Program Files/Java/jdk1.6.0_19/lib" />
     <property name="build.dir" value="${basedir}/build" />
