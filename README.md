@@ -1,5 +1,6 @@
-ws-xmpp-master - This component provide the basic functionality for load balancing.
+ws-xmpp-master
 ===============
+This component provide the basic functionality for load balancing.
 
 Getting Started
 ---------------
